@@ -65,13 +65,6 @@ export type Database = {
             referencedRelation: "sellers"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "items_seller_id_fkey"
-            columns: ["seller_id"]
-            isOneToOne: false
-            referencedRelation: "sellers_public"
-            referencedColumns: ["id"]
-          },
         ]
       }
       sellers: {
@@ -109,36 +102,7 @@ export type Database = {
       }
     }
     Views: {
-      sellers_public: {
-        Row: {
-          bay_handle: string | null
-          created_at: string | null
-          display_name: string | null
-          id: string | null
-          location_city: string | null
-          location_state: string | null
-          phone_number: string | null
-        }
-        Insert: {
-          bay_handle?: string | null
-          created_at?: string | null
-          display_name?: string | null
-          id?: string | null
-          location_city?: string | null
-          location_state?: string | null
-          phone_number?: string | null
-        }
-        Update: {
-          bay_handle?: string | null
-          created_at?: string | null
-          display_name?: string | null
-          id?: string | null
-          location_city?: string | null
-          location_state?: string | null
-          phone_number?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       bump_item_views: { Args: { _item_id: string }; Returns: undefined }
