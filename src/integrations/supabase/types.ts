@@ -14,13 +14,151 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      items: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_path: string
+          location_city: string | null
+          location_state: string | null
+          price: number
+          seller_id: string
+          status: string
+          title: string
+          views: number
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_path: string
+          location_city?: string | null
+          location_state?: string | null
+          price: number
+          seller_id: string
+          status?: string
+          title: string
+          views?: number
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_path?: string
+          location_city?: string | null
+          location_state?: string | null
+          price?: number
+          seller_id?: string
+          status?: string
+          title?: string
+          views?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "items_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "items_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sellers: {
+        Row: {
+          bay_handle: string
+          created_at: string
+          display_name: string | null
+          id: string
+          location_city: string | null
+          location_state: string | null
+          phone_number: string
+          seller_key: string
+        }
+        Insert: {
+          bay_handle: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          location_city?: string | null
+          location_state?: string | null
+          phone_number: string
+          seller_key?: string
+        }
+        Update: {
+          bay_handle?: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          location_city?: string | null
+          location_state?: string | null
+          phone_number?: string
+          seller_key?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      sellers_public: {
+        Row: {
+          bay_handle: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string | null
+          location_city: string | null
+          location_state: string | null
+          phone_number: string | null
+        }
+        Insert: {
+          bay_handle?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string | null
+          location_city?: string | null
+          location_state?: string | null
+          phone_number?: string | null
+        }
+        Update: {
+          bay_handle?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string | null
+          location_city?: string | null
+          location_state?: string | null
+          phone_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      bump_item_views: { Args: { _item_id: string }; Returns: undefined }
+      claim_bay: {
+        Args: {
+          _city?: string
+          _display_name?: string
+          _phone: string
+          _state?: string
+        }
+        Returns: {
+          bay_handle: string
+          seller_id: string
+          seller_key: string
+        }[]
+      }
+      set_item_status: {
+        Args: { _item_id: string; _seller_key: string; _status: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
