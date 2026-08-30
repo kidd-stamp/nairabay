@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import heroImage from "@/assets/hero.jpg";
 import { Header } from "@/components/nairabay/Header";
 import { ItemCard } from "@/components/nairabay/ItemCard";
-import { CATEGORIES, fetchItems, signedImageUrls } from "@/lib/nairabay";
+import { CATEGORIES, NIGERIAN_STATES, fetchItems, signedImageUrls } from "@/lib/nairabay";
 
 export const Route = createFileRoute("/")({
   head: () => ({
