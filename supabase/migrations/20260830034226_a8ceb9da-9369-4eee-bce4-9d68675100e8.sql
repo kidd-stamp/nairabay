@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.item_is_visible(uuid, timestamptz) TO anon, authenticated;
