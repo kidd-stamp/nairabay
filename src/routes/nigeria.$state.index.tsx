@@ -11,10 +11,10 @@ export const Route = createFileRoute("/nigeria/$state/")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Unavailable | NairaBay" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Unavailable | nairaBay" }, { name: "robots", content: "noindex" }] };
     }
     const { state } = loaderData;
-    const title = `Buy & sell in ${state.name} State — NairaBay`;
+    const title = `Buy & sell in ${state.name} State — nairaBay`;
     const description = `Free classifieds in ${state.name}: phones, fashion, furniture, vehicles and services in ${state.cities.slice(0, 4).join(", ")} and nearby towns and campuses.`;
     return {
       meta: [

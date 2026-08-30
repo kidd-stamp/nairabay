@@ -5,16 +5,16 @@ import { NETWORKS, STATES } from "@/lib/locations";
 export const Route = createFileRoute("/nigeria/")({
   head: () => ({
     meta: [
-      { title: "Buy & sell near you — every state in Nigeria | NairaBay" },
+      { title: "Buy & sell near you — every state in Nigeria | nairaBay" },
       {
         name: "description",
         content:
-          "Browse NairaBay listings by state, city, town and campus — Lagos, Abuja, Kano, Port Harcourt, UNILAG, ABU Zaria and every corner of Nigeria.",
+          "Browse nairaBay listings by state, city, town and campus — Lagos, Abuja, Kano, Port Harcourt, UNILAG, ABU Zaria and every corner of Nigeria.",
       },
       { property: "og:title", content: "Buy & sell near you — every state in Nigeria" },
       {
         property: "og:description",
-        content: "Find items for sale in your village, town, city or campus on NairaBay.",
+        content: "Find items for sale in your village, town, city or campus on nairaBay.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,7 +30,7 @@ function NigeriaDirectory() {
       <main className="mx-auto max-w-6xl px-4 py-10">
         <h1 className="font-display text-5xl leading-[0.95]">Buy &amp; sell anywhere in Nigeria 🇳🇬</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          NairaBay covers all 36 states and the FCT — every village, town, city, university and
+          nairaBay covers all 36 states and the FCT — every village, town, city, university and
           polytechnic. Pick your area to see what neighbours are selling, or snap and post your own
           item in seconds.
         </p>

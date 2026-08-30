@@ -86,7 +86,7 @@ export function isFreshAccount(createdAt: string) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
 }
 
-/** The dedicated NairaBay SIM that receives verification texts. */
+/** The dedicated nairaBay SIM that receives verification texts. */
 export const VERIFY_NUMBER = "+234 808 742 2887";
 export const VERIFY_KEYWORD = "VERIFY";
 /** Hours a brand-new listing stays live while the seller verifies by SMS. */

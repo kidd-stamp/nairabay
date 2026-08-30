@@ -1,5 +1,5 @@
 /**
- * Location directory powering NairaBay's local landing pages.
+ * Location directory powering nairaBay's local landing pages.
  * Each state carries the towns/cities people actually search for plus the
  * campuses (universities, polytechnics, colleges) around them.
  */

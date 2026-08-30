@@ -16,7 +16,7 @@ export function Header() {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-lg font-bold text-primary-foreground">
             ₦
           </span>
-          <span className="font-sans text-2xl font-extrabold leading-none tracking-tight">NairaBay</span>
+          <span className="font-sans text-2xl font-extrabold leading-none tracking-tight">nairaBay</span>
         </Link>
 
         <nav className="ml-auto flex items-center gap-2 text-sm font-semibold">
