@@ -153,6 +153,28 @@ function ItemPage() {
                 ) : null}
               </div>
             ) : null}
+
+            {seller && !seller.phone_verified_at ? (
+              <div className="rounded-xl bg-warning p-3 text-sm text-warning-foreground">
+                <p className="font-bold">⏳ Phone number not yet verified</p>
+                <p className="mt-1 text-xs">
+                  This listing is in its {hoursLeftToVerify(item.created_at)}h verification window and
+                  will be hidden automatically if the seller does not verify.
+                </p>
+                {isOwner ? (
+                  <a
+                    href={verifySmsLink()}
+                    className="mt-2 inline-block rounded-full bg-foreground px-4 py-2 text-xs font-bold text-background"
+                  >
+                    Text {VERIFY_KEYWORD} to {VERIFY_NUMBER} now
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
+
+            {seller?.phone_verified_at ? (
+              <p className="text-xs font-bold text-whatsapp">✅ Seller phone number verified</p>
+            ) : null}
           </div>
         </div>
 
