@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Header } from "@/components/nairabay/Header";
+import { VerificationPanel } from "@/components/nairabay/VerificationPanel";
 import {
   CATEGORIES,
   NIGERIAN_STATES,
@@ -10,7 +11,6 @@ import {
   claimBay,
   createItem,
   detectLocation,
-  fetchSellerVerification,
   loadSession,
   previewBayHandle,
   uploadPhoto,
@@ -130,6 +130,7 @@ function PostPage() {
         state: state || undefined,
         city: city || undefined,
       });
+      setPublishedAt(new Date().toISOString());
       setPublishedId(id);
       setBusy(false);
     } catch (err) {
