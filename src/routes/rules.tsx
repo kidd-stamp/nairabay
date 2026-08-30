@@ -43,7 +43,7 @@ function RulesPage() {
       <Header />
       <div className="mx-auto max-w-2xl px-4 py-10">
         <span className="bay-chip">🟢 Keep it real</span>
-        <h1 className="mt-3 font-display text-5xl leading-none">The NairaBay Code</h1>
+        <h1 className="mt-3 font-sans text-5xl font-extrabold leading-none tracking-tight">The NairaBay Code</h1>
         <p className="mt-3 text-muted-foreground">
           Three simple rules. Break them and your Bay# is permanently banned from the network.
         </p>
