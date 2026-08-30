@@ -313,6 +313,35 @@ export async function bumpViews(itemId: string) {
   await supabase.rpc("bump_item_views", { _item_id: itemId });
 }
 
+export const REPORT_REASONS = [
+  "Fake or stolen photos",
+  "Asking for payment before inspection",
+  "Scam or fraud attempt",
+  "Banned or illegal item",
+  "Abusive or harassing behaviour",
+  "Something else",
+] as const;
+
+export type ReportReason = (typeof REPORT_REASONS)[number];
+
+/** Flag a suspicious Bay# for the nairaBay team to review. */
+export async function reportBay(input: {
+  bayHandle: string;
+  reason: ReportReason;
+  details?: string;
+  itemId?: string;
+}) {
+  const { error } = await supabase.rpc("report_bay", {
+    _bay_handle: input.bayHandle,
+    _reason: input.reason,
+    ...(input.details ? { _details: input.details } : {}),
+    ...(input.itemId ? { _item_id: input.itemId } : {}),
+  });
+  if (error) throw error;
+  return true;
+}
+
+
 /** Reverse geocode the browser position into a Nigerian state/city label. */
 export async function detectLocation(): Promise<{ state: string; city: string }> {
   const position = await new Promise<GeolocationPosition>((resolve, reject) => {
