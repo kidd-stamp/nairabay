@@ -12,9 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostRouteImport } from './routes/post'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
+import { Route as NigeriaIndexRouteImport } from './routes/nigeria.index'
 import { Route as ApiPublicSmsInboundRouteImport } from './routes/api/public/sms-inbound'
+import { Route as NigeriaStateIndexRouteImport } from './routes/nigeria.$state.index'
+import { Route as NigeriaStatePlaceRouteImport } from './routes/nigeria.$state.$place'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -31,6 +35,11 @@ const RulesRoute = RulesRouteImport.update({
   path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BayHandleRoute = BayHandleRouteImport.update({
   id: '/bay/$handle',
   path: '/bay/$handle',
@@ -41,9 +50,24 @@ const ItemIdRoute = ItemIdRouteImport.update({
   path: '/item/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NigeriaIndexRoute = NigeriaIndexRouteImport.update({
+  id: '/nigeria/',
+  path: '/nigeria/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSmsInboundRoute = ApiPublicSmsInboundRouteImport.update({
   id: '/api/public/sms-inbound',
   path: '/api/public/sms-inbound',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NigeriaStateIndexRoute = NigeriaStateIndexRouteImport.update({
+  id: '/nigeria/$state/',
+  path: '/nigeria/$state/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NigeriaStatePlaceRoute = NigeriaStatePlaceRouteImport.update({
+  id: '/nigeria/$state/$place',
+  path: '/nigeria/$state/$place',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -51,26 +75,38 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/nigeria/': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state/$place': typeof NigeriaStatePlaceRoute
+  '/nigeria/$state/': typeof NigeriaStateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/nigeria': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state/$place': typeof NigeriaStatePlaceRoute
+  '/nigeria/$state': typeof NigeriaStateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/nigeria/': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state/$place': typeof NigeriaStatePlaceRoute
+  '/nigeria/$state/': typeof NigeriaStateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -78,34 +114,50 @@ export interface FileRouteTypes {
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
+    | '/nigeria/'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state/$place'
+    | '/nigeria/$state/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
+    | '/nigeria'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state/$place'
+    | '/nigeria/$state'
   id:
     | '__root__'
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
+    | '/nigeria/'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state/$place'
+    | '/nigeria/$state/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostRoute: typeof PostRoute
   RulesRoute: typeof RulesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BayHandleRoute: typeof BayHandleRoute
   ItemIdRoute: typeof ItemIdRoute
+  NigeriaIndexRoute: typeof NigeriaIndexRoute
   ApiPublicSmsInboundRoute: typeof ApiPublicSmsInboundRoute
+  NigeriaStatePlaceRoute: typeof NigeriaStatePlaceRoute
+  NigeriaStateIndexRoute: typeof NigeriaStateIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -131,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/bay/$handle': {
       id: '/bay/$handle'
       path: '/bay/$handle'
@@ -145,11 +204,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ItemIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nigeria/': {
+      id: '/nigeria/'
+      path: '/nigeria'
+      fullPath: '/nigeria/'
+      preLoaderRoute: typeof NigeriaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/sms-inbound': {
       id: '/api/public/sms-inbound'
       path: '/api/public/sms-inbound'
       fullPath: '/api/public/sms-inbound'
       preLoaderRoute: typeof ApiPublicSmsInboundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nigeria/$state/': {
+      id: '/nigeria/$state/'
+      path: '/nigeria/$state'
+      fullPath: '/nigeria/$state/'
+      preLoaderRoute: typeof NigeriaStateIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nigeria/$state/$place': {
+      id: '/nigeria/$state/$place'
+      path: '/nigeria/$state/$place'
+      fullPath: '/nigeria/$state/$place'
+      preLoaderRoute: typeof NigeriaStatePlaceRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -159,9 +239,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostRoute: PostRoute,
   RulesRoute: RulesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   BayHandleRoute: BayHandleRoute,
   ItemIdRoute: ItemIdRoute,
+  NigeriaIndexRoute: NigeriaIndexRoute,
   ApiPublicSmsInboundRoute: ApiPublicSmsInboundRoute,
+  NigeriaStatePlaceRoute: NigeriaStatePlaceRoute,
+  NigeriaStateIndexRoute: NigeriaStateIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

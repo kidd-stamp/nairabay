@@ -21,13 +21,13 @@ import {
 export const Route = createFileRoute("/post")({
   head: () => ({
     meta: [
-      { title: "Snap & Post — sell on NairaBay in seconds" },
+      { title: "Snap & Post — sell on nairaBay in seconds" },
       {
         name: "description",
         content:
           "Three steps: snap a photo, add title and price, drop your phone number. Your Bay# is created instantly — no passwords, no long forms.",
       },
-      { property: "og:title", content: "Snap & Post on NairaBay" },
+      { property: "og:title", content: "Snap & Post on nairaBay" },
       {
         property: "og:description",
         content: "Photo, price, phone number. Your listing goes live in seconds.",
@@ -110,7 +110,7 @@ function PostPage() {
     if (!numericPrice || numericPrice <= 0) return setError("Enter a valid price.");
     if (!category) return setError("Pick a category.");
     if (!previewBayHandle(phone)) return setError("Enter a valid phone number.");
-    if (!agreed) return setError("Accept the NairaBay Code to publish.");
+    if (!agreed) return setError("Accept the nairaBay Code to publish.");
 
     setBusy(true);
     try {
@@ -383,7 +383,7 @@ function PostPage() {
               I own this item, the photo is real, and I will never ask a buyer for money before
               delivery. I accept{" "}
               <Link to="/rules" className="font-bold underline underline-offset-4">
-                The NairaBay Code
+                The nairaBay Code
               </Link>
               .
             </span>
@@ -397,7 +397,7 @@ function PostPage() {
             disabled={busy}
             className="w-full rounded-2xl bg-primary px-5 py-4 text-lg font-bold text-primary-foreground shadow-soft disabled:opacity-60"
           >
-            {busy ? "Publishing…" : "🚀 Publish to NairaBay"}
+            {busy ? "Publishing…" : "🚀 Publish to nairaBay"}
           </button>
           <p className="text-center text-xs text-muted-foreground">
             This device remembers your Bay# — next time you just snap and publish.

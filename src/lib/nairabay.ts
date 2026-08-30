@@ -86,7 +86,7 @@ export function isFreshAccount(createdAt: string) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
 }
 
-/** The dedicated NairaBay SIM that receives verification texts. */
+/** The dedicated nairaBay SIM that receives verification texts. */
 export const VERIFY_NUMBER = "+234 808 742 2887";
 export const VERIFY_KEYWORD = "VERIFY";
 /** Hours a brand-new listing stays live while the seller verifies by SMS. */
@@ -163,7 +163,14 @@ export async function signedImageUrls(paths: string[]) {
   return map;
 }
 
-export async function fetchItems(opts: { category?: string | undefined; search?: string | undefined; state?: string | undefined } = {}) {
+export async function fetchItems(
+  opts: {
+    category?: string | undefined;
+    search?: string | undefined;
+    state?: string | undefined;
+    city?: string | undefined;
+  } = {},
+) {
   let query = supabase
     .from("items")
     .select(`id, seller_id, title, price, category, description, image_path, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
@@ -173,6 +180,7 @@ export async function fetchItems(opts: { category?: string | undefined; search?:
 
   if (opts.category) query = query.eq("category", opts.category);
   if (opts.state) query = query.eq("location_state", opts.state);
+  if (opts.city) query = query.ilike("location_city", `%${opts.city}%`);
   if (opts.search) query = query.ilike("title", `%${opts.search}%`);
 
   const { data, error } = await query;

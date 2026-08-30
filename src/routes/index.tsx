@@ -4,18 +4,18 @@ import { useMemo, useState } from "react";
 import heroImage from "@/assets/hero.jpg";
 import { Header } from "@/components/nairabay/Header";
 import { ItemCard } from "@/components/nairabay/ItemCard";
-import { CATEGORIES, fetchItems, signedImageUrls } from "@/lib/nairabay";
+import { CATEGORIES, NIGERIAN_STATES, fetchItems, signedImageUrls } from "@/lib/nairabay";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NairaBay — Snap & sell in seconds, no sign-up stress" },
+      { title: "nairaBay — Snap & sell in seconds, no sign-up stress" },
       {
         name: "description",
         content:
-          "NairaBay is the soft-life marketplace for Nigeria and the diaspora. Snap a photo, add a price, get your Bay# from your phone number and publish in seconds.",
+          "nairaBay is the soft-life marketplace for Nigeria and the diaspora. Snap a photo, add a price, get your Bay# from your phone number and publish in seconds.",
       },
-      { property: "og:title", content: "NairaBay — Snap & sell in seconds" },
+      { property: "og:title", content: "nairaBay — Snap & sell in seconds" },
       {
         property: "og:description",
         content: "Post items for sale in seconds. No forms, no passwords. Buyers chat you on WhatsApp.",
@@ -30,10 +30,16 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState("");
+  const [state, setState] = useState("");
 
   const { data: items = [], isLoading } = useQuery({
-    queryKey: ["items", category, search],
-    queryFn: () => fetchItems({ category: category || undefined, search: search || undefined }),
+    queryKey: ["items", category, search, state],
+    queryFn: () =>
+      fetchItems({
+        category: category || undefined,
+        search: search || undefined,
+        state: state || undefined,
+      }),
   });
 
   const paths = useMemo(() => items.map((i) => i.image_path), [items]);
@@ -70,13 +76,13 @@ function Home() {
                 to="/rules"
                 className="rounded-full border border-border px-6 py-3 font-bold transition-colors hover:bg-secondary"
               >
-                The NairaBay Code
+                The nairaBay Code
               </Link>
             </div>
           </div>
           <img
             src={heroImage}
-            alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on NairaBay"
+            alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on nairaBay"
             width={1600}
             height={1000}
             className="h-56 w-full object-cover md:h-full"
@@ -92,6 +98,19 @@ function Home() {
             placeholder="Search iPhone, sneakers, generator..."
             className="w-full rounded-full border border-input bg-card px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-ring md:max-w-sm"
           />
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            aria-label="Filter by state"
+            className="rounded-full border border-input bg-card px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+          >
+            <option value="">📍 All Nigeria</option>
+            {NIGERIAN_STATES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
           <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             <CategoryPill label="All" active={category === ""} onClick={() => setCategory("")} />
             {CATEGORIES.map((c) => (
@@ -127,9 +146,9 @@ function Home() {
       </section>
 
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        NairaBay — meet in public, inspect before you pay. ·{" "}
+        nairaBay — meet in public, inspect before you pay. ·{" "}
         <Link to="/rules" className="underline underline-offset-4">
-          The NairaBay Code
+          The nairaBay Code
         </Link>
       </footer>
     </div>
