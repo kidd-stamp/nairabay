@@ -75,20 +75,34 @@ function BayPage() {
           </span>
           <div>
             <h1 className="font-display text-4xl leading-none">#{seller.bay_handle}</h1>
-            <p className="text-sm text-muted-foreground">
-              {[seller.location_city, seller.location_state].filter(Boolean).join(", ") || "Nigeria"}{" "}
-              · joined {timeAgo(seller.created_at)} · {items.length} listing
-              {items.length === 1 ? "" : "s"}
+            <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+              {seller.phone_verified_at ? (
+                <span className="rounded-full bg-whatsapp px-2 py-1 text-[11px] font-bold text-whatsapp-foreground">
+                  ✅ Phone verified
+                </span>
+              ) : (
+                <span className="rounded-full bg-warning px-2 py-1 text-[11px] font-bold text-warning-foreground">
+                  ⏳ Phone not verified yet
+                </span>
+              )}
+              <span>
+                {[seller.location_city, seller.location_state].filter(Boolean).join(", ") || "Nigeria"}{" "}
+                · joined {timeAgo(seller.created_at)} · {items.length} listing
+                {items.length === 1 ? "" : "s"}
+              </span>
             </p>
           </div>
-          <a
-            href={whatsappLink(seller.phone_number, `Hi #${seller.bay_handle}, I found your bay on nairaBay.`)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-auto rounded-full bg-whatsapp px-5 py-3 font-bold text-whatsapp-foreground"
-          >
-            💬 Chat on WhatsApp
-          </a>
+          <div className="ml-auto flex flex-col items-end gap-2">
+            <a
+              href={whatsappLink(seller.phone_number, `Hi #${seller.bay_handle}, I found your bay on nairaBay.`)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-whatsapp px-5 py-3 font-bold text-whatsapp-foreground"
+            >
+              💬 Chat on WhatsApp
+            </a>
+            <ReportBayDialog bayHandle={seller.bay_handle} />
+          </div>
         </div>
 
         {isFreshAccount(seller.created_at) ? (
@@ -96,6 +110,7 @@ function BayPage() {
             ⚠️ This bay was created less than 24 hours ago. Meet in public and inspect before paying.
           </p>
         ) : null}
+
 
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           {items.map((item) => (
