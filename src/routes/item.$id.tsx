@@ -146,9 +146,16 @@ function ItemPage() {
                     </Link>
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Joined {timeAgo(seller.created_at)}
+                    Joined {timeAgo(seller.created_at)} ·{" "}
+                    {seller.phone_verified_at ? "✅ phone verified" : "⏳ phone not verified"}
                   </p>
+                  {!isOwner ? (
+                    <div className="mt-1">
+                      <ReportBayDialog bayHandle={seller.bay_handle} itemId={item.id} />
+                    </div>
+                  ) : null}
                 </div>
+
                 {isFreshAccount(seller.created_at) ? (
                   <span className="max-w-[55%] rounded-lg bg-warning px-2 py-1 text-[11px] font-semibold text-warning-foreground">
                     ⚠️ Account created less than 24 hours ago — proceed with caution.
