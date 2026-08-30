@@ -4,12 +4,17 @@ import { Header } from "@/components/nairabay/Header";
 import {
   CATEGORIES,
   NIGERIAN_STATES,
+  VERIFY_GRACE_HOURS,
+  VERIFY_KEYWORD,
+  VERIFY_NUMBER,
   claimBay,
   createItem,
   detectLocation,
+  fetchSellerVerification,
   loadSession,
   previewBayHandle,
   uploadPhoto,
+  verifySmsLink,
   type BaySession,
 } from "@/lib/nairabay";
 
