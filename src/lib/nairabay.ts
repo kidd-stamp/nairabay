@@ -275,6 +275,7 @@ export async function uploadPhoto(file: File) {
 
 export async function createItem(input: {
   sellerId: string;
+  sellerKey: string;
   title: string;
   price: number;
   category: string;
@@ -283,22 +284,19 @@ export async function createItem(input: {
   state?: string | undefined;
   city?: string | undefined;
 }) {
-  const { data, error } = await supabase
-    .from("items")
-    .insert({
-      seller_id: input.sellerId,
-      title: input.title,
-      price: input.price,
-      category: input.category,
-      description: input.description ?? null,
-      image_path: input.imagePath,
-      location_state: input.state ?? null,
-      location_city: input.city ?? null,
-    })
-    .select("id")
-    .single();
+  const { data, error } = await supabase.rpc("create_item", {
+    _seller_id: input.sellerId,
+    _seller_key: input.sellerKey,
+    _title: input.title,
+    _price: input.price,
+    _category: input.category,
+    _image_path: input.imagePath,
+    _description: input.description ?? null,
+    _state: input.state ?? null,
+    _city: input.city ?? null,
+  });
   if (error) throw error;
-  return data.id as string;
+  return data as string;
 }
 
 export async function setItemStatus(itemId: string, sellerKey: string, status: "active" | "sold" | "removed") {
