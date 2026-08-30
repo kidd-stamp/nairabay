@@ -5,8 +5,6 @@ import { Header } from "@/components/nairabay/Header";
 import { SafetyNotice } from "@/components/nairabay/SafetyNotice";
 import { VerificationPanel } from "@/components/nairabay/VerificationPanel";
 import {
-  VERIFY_KEYWORD,
-  VERIFY_NUMBER,
   bumpViews,
   fetchItem,
   formatNaira,
@@ -60,7 +58,10 @@ function ItemPage() {
     void bumpViews(id);
   }, [id]);
 
-  const session = typeof window !== "undefined" ? loadSession() : null;
+  const [session, setSession] = useState(() => (typeof window !== "undefined" ? loadSession() : null));
+  useEffect(() => {
+    setSession(loadSession());
+  }, []);
   const isOwner = Boolean(session && item && session.sellerId === item.seller_id);
   const currentStatus = status ?? item?.status ?? "active";
 
@@ -178,6 +179,7 @@ function ItemPage() {
               session={session}
               createdAt={item.created_at}
               verified={Boolean(seller?.phone_verified_at)}
+              onSessionChange={setSession}
               onVerified={() => void refetch()}
             />
           ) : null}
