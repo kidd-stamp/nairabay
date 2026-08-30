@@ -130,6 +130,14 @@ export type Database = {
         Args: { _item_id: string; _seller_key: string; _status: string }
         Returns: boolean
       }
+      update_seller_phone: {
+        Args: { _phone: string; _seller_id: string; _seller_key: string }
+        Returns: {
+          bay_handle: string
+          phone_number: string
+          seller_id: string
+        }[]
+      }
       verify_phone_from_sms: {
         Args: { _body: string; _from: string }
         Returns: {

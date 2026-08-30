@@ -236,6 +236,24 @@ export async function claimBay(input: {
   return session;
 }
 
+/** Swap the phone number on an existing bay and restart verification. */
+export async function updateSellerPhone(session: BaySession, phone: string): Promise<BaySession> {
+  const digits = digitsOnly(phone);
+  const { data, error } = await supabase.rpc("update_seller_phone", {
+    _seller_id: session.sellerId,
+    _seller_key: session.sellerKey,
+    _phone: digits,
+  });
+  if (error) throw error;
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) throw new Error("Could not update your number");
+  return {
+    ...session,
+    bayHandle: row.bay_handle as string,
+    phone: (row.phone_number as string) ?? digits,
+  };
+}
+
 export async function uploadPhoto(file: File) {
   const ext = (file.name.split(".").pop() ?? "jpg").toLowerCase();
   const path = `${crypto.randomUUID()}.${ext}`;

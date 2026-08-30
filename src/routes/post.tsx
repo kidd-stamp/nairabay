@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Header } from "@/components/nairabay/Header";
+import { VerificationPanel } from "@/components/nairabay/VerificationPanel";
 import {
   CATEGORIES,
   NIGERIAN_STATES,
@@ -10,7 +11,6 @@ import {
   claimBay,
   createItem,
   detectLocation,
-  fetchSellerVerification,
   loadSession,
   previewBayHandle,
   uploadPhoto,
@@ -59,6 +59,7 @@ function PostPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [publishedId, setPublishedId] = useState<string | null>(null);
+  const [publishedAt, setPublishedAt] = useState<string>(() => new Date().toISOString());
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
@@ -67,22 +68,6 @@ function PostPage() {
     if (existing) setPhone(existing.phone);
   }, []);
 
-  // Poll for the seller's inbound VERIFY text while the listing is in its grace period.
-  useEffect(() => {
-    if (!publishedId || !session || verified) return;
-    const sellerId = session.sellerId;
-    const check = async () => {
-      try {
-        const status = await fetchSellerVerification(sellerId);
-        if (status.verified) setVerified(true);
-      } catch {
-        /* keep polling */
-      }
-    };
-    void check();
-    const timer = window.setInterval(check, 6000);
-    return () => window.clearInterval(timer);
-  }, [publishedId, session, verified]);
 
   useEffect(() => {
     if (!file) return;
@@ -145,6 +130,7 @@ function PostPage() {
         state: state || undefined,
         city: city || undefined,
       });
+      setPublishedAt(new Date().toISOString());
       setPublishedId(id);
       setBusy(false);
     } catch (err) {
@@ -166,37 +152,18 @@ function PostPage() {
             and it stays up for good.
           </p>
 
-          <div className="surface-card mt-5 space-y-3 p-5">
-            {verified ? (
-              <>
-                <p className="text-lg font-bold text-whatsapp">✅ Phone number verified</p>
-                <p className="text-sm text-muted-foreground">
-                  Your Bay# <span className="bay-chip">#{session?.bayHandle}</span> is confirmed — your
-                  listings stay live.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-lg font-bold">⏳ One text to lock in your Bay#</p>
-                <p className="text-sm">
-                  Text <span className="font-bold">{VERIFY_KEYWORD}</span> from{" "}
-                  <span className="font-bold">{phone}</span> to{" "}
-                  <span className="font-bold">{VERIFY_NUMBER}</span>. We read the sender number and
-                  verify you instantly — no code to type back.
-                </p>
-                <a
-                  href={verifySmsLink()}
-                  className="block rounded-2xl bg-whatsapp px-5 py-4 text-center text-lg font-bold text-whatsapp-foreground shadow-soft"
-                >
-                  💬 Open my SMS app & send {VERIFY_KEYWORD}
-                </a>
-                <p className="text-xs text-muted-foreground">
-                  Waiting for your text… this page updates by itself. If we don&apos;t get it within{" "}
-                  {VERIFY_GRACE_HOURS} hours, your listing is hidden until you verify.
-                </p>
-              </>
-            )}
-          </div>
+          {session ? (
+            <div className="mt-5">
+              <VerificationPanel
+                session={session}
+                createdAt={publishedAt}
+                verified={verified}
+                onSessionChange={setSession}
+                onVerified={() => setVerified(true)}
+              />
+            </div>
+          ) : null}
+
 
           <div className="mt-4 flex gap-3">
             <button
