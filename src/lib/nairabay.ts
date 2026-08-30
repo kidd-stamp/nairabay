@@ -188,9 +188,9 @@ export async function claimBay(input: {
   const digits = digitsOnly(input.phone);
   const { data, error } = await supabase.rpc("claim_bay", {
     _phone: digits,
-    _display_name: input.displayName ?? null,
-    _state: input.state ?? null,
-    _city: input.city ?? null,
+    ...(input.displayName ? { _display_name: input.displayName } : {}),
+    ...(input.state ? { _state: input.state } : {}),
+    ...(input.city ? { _city: input.city } : {}),
   });
   if (error) throw error;
   const row = Array.isArray(data) ? data[0] : data;
