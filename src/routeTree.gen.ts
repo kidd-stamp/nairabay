@@ -16,6 +16,7 @@ import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
 import { Route as NigeriaIndexRouteImport } from './routes/nigeria.index'
 import { Route as ApiPublicSmsInboundRouteImport } from './routes/api/public/sms-inbound'
+import { Route as NigeriaStateIndexRouteImport } from './routes/nigeria.$state.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const ApiPublicSmsInboundRoute = ApiPublicSmsInboundRouteImport.update({
   path: '/api/public/sms-inbound',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NigeriaStateIndexRoute = NigeriaStateIndexRouteImport.update({
+  id: '/nigeria/$state/',
+  path: '/nigeria/$state/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/item/$id': typeof ItemIdRoute
   '/nigeria/': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state/': typeof NigeriaStateIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/item/$id': typeof ItemIdRoute
   '/nigeria': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state': typeof NigeriaStateIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/item/$id': typeof ItemIdRoute
   '/nigeria/': typeof NigeriaIndexRoute
   '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
+  '/nigeria/$state/': typeof NigeriaStateIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/item/$id'
     | '/nigeria/'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/item/$id'
     | '/nigeria'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/item/$id'
     | '/nigeria/'
     | '/api/public/sms-inbound'
+    | '/nigeria/$state/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   ItemIdRoute: typeof ItemIdRoute
   NigeriaIndexRoute: typeof NigeriaIndexRoute
   ApiPublicSmsInboundRoute: typeof ApiPublicSmsInboundRoute
+  NigeriaStateIndexRoute: typeof NigeriaStateIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSmsInboundRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nigeria/$state/': {
+      id: '/nigeria/$state/'
+      path: '/nigeria/$state'
+      fullPath: '/nigeria/$state/'
+      preLoaderRoute: typeof NigeriaStateIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   ItemIdRoute: ItemIdRoute,
   NigeriaIndexRoute: NigeriaIndexRoute,
   ApiPublicSmsInboundRoute: ApiPublicSmsInboundRoute,
+  NigeriaStateIndexRoute: NigeriaStateIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
