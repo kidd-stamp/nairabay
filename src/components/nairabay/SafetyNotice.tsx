@@ -1,4 +1,4 @@
-export function SafetyNotice({ bayHandle }: { bayHandle?: string }) {
+export function SafetyNotice({ bayHandle }: { bayHandle?: string | undefined }) {
   return (
     <div className="rounded-xl border border-warning-foreground/20 bg-warning p-4 text-warning-foreground">
       <p className="text-sm font-extrabold uppercase tracking-wide">🛑 NairaBay safety warning</p>

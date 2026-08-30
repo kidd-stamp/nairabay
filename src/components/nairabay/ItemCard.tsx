@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { formatNaira, timeAgo, type Item } from "@/lib/nairabay";
 
-export function ItemCard({ item, imageUrl }: { item: Item; imageUrl?: string }) {
+export function ItemCard({ item, imageUrl }: { item: Item; imageUrl?: string | undefined }) {
   return (
     <Link
       to="/item/$id"

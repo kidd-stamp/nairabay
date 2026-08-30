@@ -132,7 +132,7 @@ export async function signedImageUrls(paths: string[]) {
   return map;
 }
 
-export async function fetchItems(opts: { category?: string; search?: string; state?: string } = {}) {
+export async function fetchItems(opts: { category?: string | undefined; search?: string | undefined; state?: string | undefined } = {}) {
   let query = supabase
     .from("items")
     .select(`id, seller_id, title, price, category, description, image_path, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
@@ -181,9 +181,9 @@ export async function fetchBay(handle: string) {
 
 export async function claimBay(input: {
   phone: string;
-  displayName?: string;
-  state?: string;
-  city?: string;
+  displayName?: string | undefined;
+  state?: string | undefined;
+  city?: string | undefined;
 }): Promise<BaySession> {
   const digits = digitsOnly(input.phone);
   const { data, error } = await supabase.rpc("claim_bay", {
@@ -221,10 +221,10 @@ export async function createItem(input: {
   title: string;
   price: number;
   category: string;
-  description?: string;
+  description?: string | undefined;
   imagePath: string;
-  state?: string;
-  city?: string;
+  state?: string | undefined;
+  city?: string | undefined;
 }) {
   const { data, error } = await supabase
     .from("items")
@@ -272,7 +272,7 @@ export async function detectLocation(): Promise<{ state: string; city: string }>
   const json = (await res.json()) as { address?: Record<string, string> };
   const address = json.address ?? {};
   const rawState = (address["state"] ?? "").replace(/ State$/i, "").trim();
-  const state =
+  const state: string =
     NIGERIAN_STATES.find((s) => s.toLowerCase().includes(rawState.toLowerCase()) && rawState) ??
     (address["country"] === "Nigeria" ? rawState : "Outside Nigeria");
   const city =
