@@ -14,6 +14,7 @@ import { Route as PostRouteImport } from './routes/post'
 import { Route as RulesRouteImport } from './routes/rules'
 import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
+import { Route as ApiPublicSmsInboundRouteImport } from './routes/api/public/sms-inbound'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const ItemIdRoute = ItemIdRouteImport.update({
   path: '/item/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSmsInboundRoute = ApiPublicSmsInboundRouteImport.update({
+  id: '/api/public/sms-inbound',
+  path: '/api/public/sms-inbound',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
+  '/api/public/sms-inbound': typeof ApiPublicSmsInboundRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
+  fullPaths:
+    | '/'
+    | '/post'
+    | '/rules'
+    | '/bay/$handle'
+    | '/item/$id'
+    | '/api/public/sms-inbound'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
-  id: '__root__' | '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
+  to:
+    | '/'
+    | '/post'
+    | '/rules'
+    | '/bay/$handle'
+    | '/item/$id'
+    | '/api/public/sms-inbound'
+  id:
+    | '__root__'
+    | '/'
+    | '/post'
+    | '/rules'
+    | '/bay/$handle'
+    | '/item/$id'
+    | '/api/public/sms-inbound'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   RulesRoute: typeof RulesRoute
   BayHandleRoute: typeof BayHandleRoute
   ItemIdRoute: typeof ItemIdRoute
+  ApiPublicSmsInboundRoute: typeof ApiPublicSmsInboundRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ItemIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/sms-inbound': {
+      id: '/api/public/sms-inbound'
+      path: '/api/public/sms-inbound'
+      fullPath: '/api/public/sms-inbound'
+      preLoaderRoute: typeof ApiPublicSmsInboundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   RulesRoute: RulesRoute,
   BayHandleRoute: BayHandleRoute,
   ItemIdRoute: ItemIdRoute,
+  ApiPublicSmsInboundRoute: ApiPublicSmsInboundRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

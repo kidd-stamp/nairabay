@@ -4,12 +4,17 @@ import { Header } from "@/components/nairabay/Header";
 import {
   CATEGORIES,
   NIGERIAN_STATES,
+  VERIFY_GRACE_HOURS,
+  VERIFY_KEYWORD,
+  VERIFY_NUMBER,
   claimBay,
   createItem,
   detectLocation,
+  fetchSellerVerification,
   loadSession,
   previewBayHandle,
   uploadPhoto,
+  verifySmsLink,
   type BaySession,
 } from "@/lib/nairabay";
 
@@ -53,12 +58,31 @@ function PostPage() {
   const [locating, setLocating] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [publishedId, setPublishedId] = useState<string | null>(null);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const existing = loadSession();
     setSession(existing);
     if (existing) setPhone(existing.phone);
   }, []);
+
+  // Poll for the seller's inbound VERIFY text while the listing is in its grace period.
+  useEffect(() => {
+    if (!publishedId || !session || verified) return;
+    const sellerId = session.sellerId;
+    const check = async () => {
+      try {
+        const status = await fetchSellerVerification(sellerId);
+        if (status.verified) setVerified(true);
+      } catch {
+        /* keep polling */
+      }
+    };
+    void check();
+    const timer = window.setInterval(check, 6000);
+    return () => window.clearInterval(timer);
+  }, [publishedId, session, verified]);
 
   useEffect(() => {
     if (!file) return;
@@ -121,7 +145,8 @@ function PostPage() {
         state: state || undefined,
         city: city || undefined,
       });
-      navigate({ to: "/item/$id", params: { id } });
+      setPublishedId(id);
+      setBusy(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Try again.");
       setBusy(false);
@@ -129,6 +154,70 @@ function PostPage() {
   };
 
   const handlePreview = previewBayHandle(phone);
+
+  if (publishedId) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <div className="mx-auto max-w-lg px-4 py-10">
+          <h1 className="font-display text-4xl">Your listing is live 🚀</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            It stays visible for {VERIFY_GRACE_HOURS} hours while we confirm your number. Verify now
+            and it stays up for good.
+          </p>
+
+          <div className="surface-card mt-5 space-y-3 p-5">
+            {verified ? (
+              <>
+                <p className="text-lg font-bold text-whatsapp">✅ Phone number verified</p>
+                <p className="text-sm text-muted-foreground">
+                  Your Bay# <span className="bay-chip">#{session?.bayHandle}</span> is confirmed — your
+                  listings stay live.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-lg font-bold">⏳ One text to lock in your Bay#</p>
+                <p className="text-sm">
+                  Text <span className="font-bold">{VERIFY_KEYWORD}</span> from{" "}
+                  <span className="font-bold">{phone}</span> to{" "}
+                  <span className="font-bold">{VERIFY_NUMBER}</span>. We read the sender number and
+                  verify you instantly — no code to type back.
+                </p>
+                <a
+                  href={verifySmsLink()}
+                  className="block rounded-2xl bg-whatsapp px-5 py-4 text-center text-lg font-bold text-whatsapp-foreground shadow-soft"
+                >
+                  💬 Open my SMS app & send {VERIFY_KEYWORD}
+                </a>
+                <p className="text-xs text-muted-foreground">
+                  Waiting for your text… this page updates by itself. If we don&apos;t get it within{" "}
+                  {VERIFY_GRACE_HOURS} hours, your listing is hidden until you verify.
+                </p>
+              </>
+            )}
+          </div>
+
+          <div className="mt-4 flex gap-3">
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/item/$id", params: { id: publishedId } })}
+              className="flex-1 rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground"
+            >
+              View my listing
+            </button>
+            <Link
+              to="/"
+              className="flex-1 rounded-2xl border border-border px-5 py-3 text-center font-bold"
+            >
+              Back to market
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen">
@@ -305,6 +394,16 @@ function PostPage() {
               Your Bay# will be <span className="bay-chip">#{session?.bayHandle ?? handlePreview}</span>
             </p>
           ) : null}
+
+          <div className="rounded-xl bg-secondary p-3 text-sm">
+            <p className="font-bold">📲 Verify this number after you publish</p>
+            <p className="mt-1 text-muted-foreground">
+              Text <span className="font-bold">{VERIFY_KEYWORD}</span> to{" "}
+              <span className="font-bold">{VERIFY_NUMBER}</span> from this same number. Your item goes
+              live immediately and stays up for {VERIFY_GRACE_HOURS} hours — verify within that window
+              to keep it live.
+            </p>
+          </div>
 
           <label className="flex items-start gap-3 text-sm">
             <input
