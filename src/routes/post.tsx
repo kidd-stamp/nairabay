@@ -58,12 +58,31 @@ function PostPage() {
   const [locating, setLocating] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [publishedId, setPublishedId] = useState<string | null>(null);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     const existing = loadSession();
     setSession(existing);
     if (existing) setPhone(existing.phone);
   }, []);
+
+  // Poll for the seller's inbound VERIFY text while the listing is in its grace period.
+  useEffect(() => {
+    if (!publishedId || !session || verified) return;
+    const sellerId = session.sellerId;
+    const check = async () => {
+      try {
+        const status = await fetchSellerVerification(sellerId);
+        if (status.verified) setVerified(true);
+      } catch {
+        /* keep polling */
+      }
+    };
+    void check();
+    const timer = window.setInterval(check, 6000);
+    return () => window.clearInterval(timer);
+  }, [publishedId, session, verified]);
 
   useEffect(() => {
     if (!file) return;
