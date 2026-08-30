@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostRouteImport } from './routes/post'
+import { Route as RulesRouteImport } from './routes/rules'
 import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const PostRoute = PostRouteImport.update({
   id: '/post',
   path: '/post',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RulesRoute = RulesRouteImport.update({
+  id: '/rules',
+  path: '/rules',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BayHandleRoute = BayHandleRouteImport.update({
@@ -38,12 +44,14 @@ const ItemIdRoute = ItemIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
+  '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
+  '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/post': typeof PostRoute
+  '/rules': typeof RulesRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/post' | '/bay/$handle' | '/item/$id'
+  fullPaths: '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/post' | '/bay/$handle' | '/item/$id'
-  id: '__root__' | '/' | '/post' | '/bay/$handle' | '/item/$id'
+  to: '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
+  id: '__root__' | '/' | '/post' | '/rules' | '/bay/$handle' | '/item/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostRoute: typeof PostRoute
+  RulesRoute: typeof RulesRoute
   BayHandleRoute: typeof BayHandleRoute
   ItemIdRoute: typeof ItemIdRoute
 }
@@ -83,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/post'
       fullPath: '/post'
       preLoaderRoute: typeof PostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rules': {
+      id: '/rules'
+      path: '/rules'
+      fullPath: '/rules'
+      preLoaderRoute: typeof RulesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bay/$handle': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostRoute: PostRoute,
+  RulesRoute: RulesRoute,
   BayHandleRoute: BayHandleRoute,
   ItemIdRoute: ItemIdRoute,
 }
