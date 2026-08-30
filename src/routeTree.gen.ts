@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostRouteImport } from './routes/post'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
 import { Route as NigeriaIndexRouteImport } from './routes/nigeria.index'
@@ -32,6 +33,11 @@ const PostRoute = PostRouteImport.update({
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
   path: '/rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BayHandleRoute = BayHandleRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
   '/nigeria/': typeof NigeriaIndexRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
   '/nigeria': typeof NigeriaIndexRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
   '/nigeria/': typeof NigeriaIndexRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
     | '/nigeria/'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
     | '/nigeria'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/post'
     | '/rules'
+    | '/sitemap.xml'
     | '/bay/$handle'
     | '/item/$id'
     | '/nigeria/'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostRoute: typeof PostRoute
   RulesRoute: typeof RulesRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BayHandleRoute: typeof BayHandleRoute
   ItemIdRoute: typeof ItemIdRoute
   NigeriaIndexRoute: typeof NigeriaIndexRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/rules'
       fullPath: '/rules'
       preLoaderRoute: typeof RulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bay/$handle': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostRoute: PostRoute,
   RulesRoute: RulesRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   BayHandleRoute: BayHandleRoute,
   ItemIdRoute: ItemIdRoute,
   NigeriaIndexRoute: NigeriaIndexRoute,
