@@ -130,7 +130,21 @@ export type Item = {
 };
 
 const SELLER_COLUMNS =
-  "id, phone_number, bay_handle, display_name, location_state, location_city, created_at";
+  "id, phone_number, bay_handle, display_name, location_state, location_city, phone_verified_at, created_at";
+
+/** Poll the seller row to see whether their VERIFY text has landed. */
+export async function fetchSellerVerification(sellerId: string) {
+  const { data, error } = await supabase
+    .from("sellers")
+    .select("phone_verified_at, bay_handle")
+    .eq("id", sellerId)
+    .maybeSingle();
+  if (error) throw error;
+  return {
+    verified: Boolean(data?.phone_verified_at),
+    bayHandle: (data?.bay_handle as string | undefined) ?? "",
+  };
+}
 
 export async function signedImageUrl(path: string) {
   const { data } = await supabase.storage.from("item-photos").createSignedUrl(path, 60 * 60 * 24);
