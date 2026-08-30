@@ -67,6 +67,51 @@ export type Database = {
           },
         ]
       }
+      reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          item_id: string | null
+          reason: string
+          seller_id: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          item_id?: string | null
+          reason: string
+          seller_id: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          item_id?: string | null
+          reason?: string
+          seller_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reports_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sellers: {
         Row: {
           bay_handle: string
@@ -138,6 +183,15 @@ export type Database = {
       }
       item_is_visible: {
         Args: { _created_at: string; _seller_id: string }
+        Returns: boolean
+      }
+      report_bay: {
+        Args: {
+          _bay_handle: string
+          _details?: string
+          _item_id?: string
+          _reason: string
+        }
         Returns: boolean
       }
       set_item_status: {
