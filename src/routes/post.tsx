@@ -145,7 +145,8 @@ function PostPage() {
         state: state || undefined,
         city: city || undefined,
       });
-      navigate({ to: "/item/$id", params: { id } });
+      setPublishedId(id);
+      setBusy(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Try again.");
       setBusy(false);
