@@ -76,6 +76,7 @@ export type Database = {
           location_city: string | null
           location_state: string | null
           phone_number: string
+          phone_verified_at: string | null
           seller_key: string
         }
         Insert: {
@@ -86,6 +87,7 @@ export type Database = {
           location_city?: string | null
           location_state?: string | null
           phone_number: string
+          phone_verified_at?: string | null
           seller_key?: string
         }
         Update: {
@@ -96,6 +98,7 @@ export type Database = {
           location_city?: string | null
           location_state?: string | null
           phone_number?: string
+          phone_verified_at?: string | null
           seller_key?: string
         }
         Relationships: []
@@ -119,9 +122,20 @@ export type Database = {
           seller_key: string
         }[]
       }
+      item_is_visible: {
+        Args: { _created_at: string; _seller_id: string }
+        Returns: boolean
+      }
       set_item_status: {
         Args: { _item_id: string; _seller_key: string; _status: string }
         Returns: boolean
+      }
+      verify_phone_from_sms: {
+        Args: { _body: string; _from: string }
+        Returns: {
+          bay_handle: string
+          seller_id: string
+        }[]
       }
     }
     Enums: {
