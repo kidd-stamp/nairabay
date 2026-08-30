@@ -122,6 +122,20 @@ export type Database = {
           seller_key: string
         }[]
       }
+      create_item: {
+        Args: {
+          _category: string
+          _city?: string
+          _description?: string
+          _image_path: string
+          _price: number
+          _seller_id: string
+          _seller_key: string
+          _state?: string
+          _title: string
+        }
+        Returns: string
+      }
       item_is_visible: {
         Args: { _created_at: string; _seller_id: string }
         Returns: boolean

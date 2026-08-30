@@ -122,6 +122,7 @@ function PostPage() {
       const imagePath = await uploadPhoto(file);
       const id = await createItem({
         sellerId: active.sellerId,
+        sellerKey: active.sellerKey,
         title: cleanTitle,
         price: numericPrice,
         category,
