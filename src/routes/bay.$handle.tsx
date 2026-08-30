@@ -3,7 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { Header } from "@/components/nairabay/Header";
 import { ItemCard } from "@/components/nairabay/ItemCard";
+import { ReportBayDialog } from "@/components/nairabay/ReportBayDialog";
 import { fetchBay, isFreshAccount, signedImageUrls, timeAgo, whatsappLink } from "@/lib/nairabay";
+
 
 export const Route = createFileRoute("/bay/$handle")({
   head: () => ({
