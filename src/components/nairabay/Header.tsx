@@ -21,6 +21,12 @@ export function Header() {
 
         <nav className="ml-auto flex items-center gap-2 text-sm font-semibold">
           <Link
+            to="/nigeria"
+            className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
+          >
+            Near me
+          </Link>
+          <Link
             to="/rules"
             className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
           >
