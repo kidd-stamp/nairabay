@@ -30,10 +30,16 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState("");
+  const [state, setState] = useState("");
 
   const { data: items = [], isLoading } = useQuery({
-    queryKey: ["items", category, search],
-    queryFn: () => fetchItems({ category: category || undefined, search: search || undefined }),
+    queryKey: ["items", category, search, state],
+    queryFn: () =>
+      fetchItems({
+        category: category || undefined,
+        search: search || undefined,
+        state: state || undefined,
+      }),
   });
 
   const paths = useMemo(() => items.map((i) => i.image_path), [items]);
