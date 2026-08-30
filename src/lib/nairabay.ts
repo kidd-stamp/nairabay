@@ -86,6 +86,22 @@ export function isFreshAccount(createdAt: string) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
 }
 
+/** The dedicated NairaBay SIM that receives verification texts. */
+export const VERIFY_NUMBER = "+234 808 742 2887";
+export const VERIFY_KEYWORD = "VERIFY";
+/** Hours a brand-new listing stays live while the seller verifies by SMS. */
+export const VERIFY_GRACE_HOURS = 24;
+
+export function verifySmsLink() {
+  const digits = VERIFY_NUMBER.replace(/[^0-9+]/g, "");
+  return `sms:${digits}?&body=${encodeURIComponent(VERIFY_KEYWORD)}`;
+}
+
+export function hoursLeftToVerify(createdAt: string) {
+  const ms = new Date(createdAt).getTime() + VERIFY_GRACE_HOURS * 3600_000 - Date.now();
+  return Math.max(0, Math.ceil(ms / 3600_000));
+}
+
 export type Seller = {
   id: string;
   phone_number: string;
@@ -93,6 +109,7 @@ export type Seller = {
   display_name: string | null;
   location_state: string | null;
   location_city: string | null;
+  phone_verified_at: string | null;
   created_at: string;
 };
 
