@@ -98,6 +98,19 @@ function Home() {
             placeholder="Search iPhone, sneakers, generator..."
             className="w-full rounded-full border border-input bg-card px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-ring md:max-w-sm"
           />
+          <select
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+            aria-label="Filter by state"
+            className="rounded-full border border-input bg-card px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+          >
+            <option value="">📍 All Nigeria</option>
+            {NIGERIAN_STATES.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
           <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             <CategoryPill label="All" active={category === ""} onClick={() => setCategory("")} />
             {CATEGORIES.map((c) => (
