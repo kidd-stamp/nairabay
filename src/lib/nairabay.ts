@@ -291,9 +291,9 @@ export async function createItem(input: {
     _price: input.price,
     _category: input.category,
     _image_path: input.imagePath,
-    _description: input.description ?? null,
-    _state: input.state ?? null,
-    _city: input.city ?? null,
+    _description: input.description ?? undefined,
+    _state: input.state ?? undefined,
+    _city: input.city ?? undefined,
   });
   if (error) throw error;
   return data as string;
