@@ -155,6 +155,70 @@ function PostPage() {
 
   const handlePreview = previewBayHandle(phone);
 
+  if (publishedId) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <div className="mx-auto max-w-lg px-4 py-10">
+          <h1 className="font-display text-4xl">Your listing is live 🚀</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            It stays visible for {VERIFY_GRACE_HOURS} hours while we confirm your number. Verify now
+            and it stays up for good.
+          </p>
+
+          <div className="surface-card mt-5 space-y-3 p-5">
+            {verified ? (
+              <>
+                <p className="text-lg font-bold text-whatsapp">✅ Phone number verified</p>
+                <p className="text-sm text-muted-foreground">
+                  Your Bay# <span className="bay-chip">#{session?.bayHandle}</span> is confirmed — your
+                  listings stay live.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-lg font-bold">⏳ One text to lock in your Bay#</p>
+                <p className="text-sm">
+                  Text <span className="font-bold">{VERIFY_KEYWORD}</span> from{" "}
+                  <span className="font-bold">{phone}</span> to{" "}
+                  <span className="font-bold">{VERIFY_NUMBER}</span>. We read the sender number and
+                  verify you instantly — no code to type back.
+                </p>
+                <a
+                  href={verifySmsLink()}
+                  className="block rounded-2xl bg-whatsapp px-5 py-4 text-center text-lg font-bold text-whatsapp-foreground shadow-soft"
+                >
+                  💬 Open my SMS app & send {VERIFY_KEYWORD}
+                </a>
+                <p className="text-xs text-muted-foreground">
+                  Waiting for your text… this page updates by itself. If we don&apos;t get it within{" "}
+                  {VERIFY_GRACE_HOURS} hours, your listing is hidden until you verify.
+                </p>
+              </>
+            )}
+          </div>
+
+          <div className="mt-4 flex gap-3">
+            <button
+              type="button"
+              onClick={() => navigate({ to: "/item/$id", params: { id: publishedId } })}
+              className="flex-1 rounded-2xl bg-primary px-5 py-3 font-bold text-primary-foreground"
+            >
+              View my listing
+            </button>
+            <Link
+              to="/"
+              className="flex-1 rounded-2xl border border-border px-5 py-3 text-center font-bold"
+            >
+              Back to market
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
     <div className="min-h-screen">
       <Header />
