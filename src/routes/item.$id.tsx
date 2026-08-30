@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Header } from "@/components/nairabay/Header";
+import { ReportBayDialog } from "@/components/nairabay/ReportBayDialog";
+
 import { SafetyNotice } from "@/components/nairabay/SafetyNotice";
 import { VerificationPanel } from "@/components/nairabay/VerificationPanel";
 import {
