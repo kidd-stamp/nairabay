@@ -166,37 +166,18 @@ function PostPage() {
             and it stays up for good.
           </p>
 
-          <div className="surface-card mt-5 space-y-3 p-5">
-            {verified ? (
-              <>
-                <p className="text-lg font-bold text-whatsapp">✅ Phone number verified</p>
-                <p className="text-sm text-muted-foreground">
-                  Your Bay# <span className="bay-chip">#{session?.bayHandle}</span> is confirmed — your
-                  listings stay live.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-lg font-bold">⏳ One text to lock in your Bay#</p>
-                <p className="text-sm">
-                  Text <span className="font-bold">{VERIFY_KEYWORD}</span> from{" "}
-                  <span className="font-bold">{phone}</span> to{" "}
-                  <span className="font-bold">{VERIFY_NUMBER}</span>. We read the sender number and
-                  verify you instantly — no code to type back.
-                </p>
-                <a
-                  href={verifySmsLink()}
-                  className="block rounded-2xl bg-whatsapp px-5 py-4 text-center text-lg font-bold text-whatsapp-foreground shadow-soft"
-                >
-                  💬 Open my SMS app & send {VERIFY_KEYWORD}
-                </a>
-                <p className="text-xs text-muted-foreground">
-                  Waiting for your text… this page updates by itself. If we don&apos;t get it within{" "}
-                  {VERIFY_GRACE_HOURS} hours, your listing is hidden until you verify.
-                </p>
-              </>
-            )}
-          </div>
+          {session ? (
+            <div className="mt-5">
+              <VerificationPanel
+                session={session}
+                createdAt={publishedAt}
+                verified={verified}
+                onSessionChange={setSession}
+                onVerified={() => setVerified(true)}
+              />
+            </div>
+          ) : null}
+
 
           <div className="mt-4 flex gap-3">
             <button
