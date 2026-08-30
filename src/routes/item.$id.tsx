@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/nairabay/Header";
 import { SafetyNotice } from "@/components/nairabay/SafetyNotice";
 import {
+  VERIFY_KEYWORD,
+  VERIFY_NUMBER,
   bumpViews,
   fetchItem,
   formatNaira,
+  hoursLeftToVerify,
   isFreshAccount,
   loadSession,
   setItemStatus,
   signedImageUrl,
   timeAgo,
+  verifySmsLink,
   whatsappLink,
 } from "@/lib/nairabay";
 
