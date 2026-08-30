@@ -395,6 +395,16 @@ function PostPage() {
             </p>
           ) : null}
 
+          <div className="rounded-xl bg-secondary p-3 text-sm">
+            <p className="font-bold">📲 Verify this number after you publish</p>
+            <p className="mt-1 text-muted-foreground">
+              Text <span className="font-bold">{VERIFY_KEYWORD}</span> to{" "}
+              <span className="font-bold">{VERIFY_NUMBER}</span> from this same number. Your item goes
+              live immediately and stays up for {VERIFY_GRACE_HOURS} hours — verify within that window
+              to keep it live.
+            </p>
+          </div>
+
           <label className="flex items-start gap-3 text-sm">
             <input
               type="checkbox"
