@@ -380,7 +380,15 @@ function PostPage() {
               📸 Open camera / upload photo
             </button>
           )}
+          {aiBusy ? (
+            <p className="mt-3 text-sm font-semibold text-muted-foreground">
+              🤖 Reading your photo — filling the details for you…
+            </p>
+          ) : aiNote ? (
+            <p className="mt-3 text-sm font-semibold text-muted-foreground">{aiNote}</p>
+          ) : null}
         </div>
+
 
         {/* Step 2 — details */}
         <div className="surface-card mt-4 space-y-4 p-5">
