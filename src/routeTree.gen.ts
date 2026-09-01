@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PostRouteImport } from './routes/post'
 import { Route as RulesRouteImport } from './routes/rules'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BayHandleRouteImport } from './routes/bay.$handle'
 import { Route as ItemIdRouteImport } from './routes/item.$id'
@@ -50,6 +51,11 @@ const RulesRoute = RulesRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyRoute = VerifyRouteImport.update({
+  id: '/verify',
+  path: '/verify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/verify': typeof VerifyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
@@ -108,6 +115,7 @@ export interface FileRoutesByTo {
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/verify': typeof VerifyRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
@@ -124,6 +132,7 @@ export interface FileRoutesById {
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/verify': typeof VerifyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/bay/$handle': typeof BayHandleRoute
   '/item/$id': typeof ItemIdRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
     | '/post'
     | '/rules'
     | '/sitemap.xml'
+    | '/verify'
     | '/admin'
     | '/bay/$handle'
     | '/item/$id'
@@ -154,6 +164,7 @@ export interface FileRouteTypes {
     | '/post'
     | '/rules'
     | '/sitemap.xml'
+    | '/verify'
     | '/admin'
     | '/bay/$handle'
     | '/item/$id'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/post'
     | '/rules'
     | '/sitemap.xml'
+    | '/verify'
     | '/_authenticated/admin'
     | '/bay/$handle'
     | '/item/$id'
@@ -185,6 +197,7 @@ export interface RootRouteChildren {
   PostRoute: typeof PostRoute
   RulesRoute: typeof RulesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  VerifyRoute: typeof VerifyRoute
   BayHandleRoute: typeof BayHandleRoute
   ItemIdRoute: typeof ItemIdRoute
   NigeriaIndexRoute: typeof NigeriaIndexRoute
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify': {
+      id: '/verify'
+      path: '/verify'
+      fullPath: '/verify'
+      preLoaderRoute: typeof VerifyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostRoute: PostRoute,
   RulesRoute: RulesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  VerifyRoute: VerifyRoute,
   BayHandleRoute: BayHandleRoute,
   ItemIdRoute: ItemIdRoute,
   NigeriaIndexRoute: NigeriaIndexRoute,

@@ -256,6 +256,7 @@ function PostPage() {
     if (cleanTitle.length < 3) return setError("Give your item a title.");
     if (!numericPrice || numericPrice <= 0) return setError("Enter a valid price.");
     if (!category) return setError("Pick a category.");
+    if (!state) return setError("Pick the state where the item is.");
     if (!previewBayHandle(phone)) return setError("Enter a valid phone number.");
     if (!agreed) return setError("Accept the nairaBay Code to publish.");
 
@@ -446,7 +447,7 @@ function PostPage() {
             />
           </Field>
 
-          <Field label="Price (₦)">
+          <Field label="Price (₦) — required">
             <input
               value={price}
               inputMode="numeric"
@@ -476,7 +477,7 @@ function PostPage() {
             </div>
           </Field>
 
-          <Field label="Location">
+          <Field label="Location (required — buyers filter by state)">
             <button
               type="button"
               onClick={useMyLocation}
