@@ -30,14 +30,21 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState("");
+  const [debounced, setDebounced] = useState("");
   const [state, setState] = useState("");
 
+  // Debounce typing so slow networks make one request, not one per keystroke.
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(search.trim()), 400);
+    return () => clearTimeout(t);
+  }, [search]);
+
   const { data: items = [], isLoading } = useQuery({
-    queryKey: ["items", category, search, state],
+    queryKey: ["items", category, debounced, state],
     queryFn: () =>
       fetchItems({
         category: category || undefined,
-        search: search || undefined,
+        search: debounced || undefined,
         state: state || undefined,
       }),
   });
@@ -48,6 +55,7 @@ function Home() {
     queryFn: () => signedImageUrls(paths),
     enabled: paths.length > 0,
   });
+
 
   return (
     <div className="min-h-screen">
