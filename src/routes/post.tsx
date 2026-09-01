@@ -17,6 +17,8 @@ import {
   verifySmsLink,
   type BaySession,
 } from "@/lib/nairabay";
+import { clearDraft, loadDraft, loadQueue, queueListing, removeQueued, saveDraft } from "@/lib/offline";
+import { useOnline } from "@/hooks/useOnline";
 
 export const Route = createFileRoute("/post")({
   head: () => ({
@@ -61,12 +63,116 @@ function PostPage() {
   const [publishedId, setPublishedId] = useState<string | null>(null);
   const [publishedAt, setPublishedAt] = useState<string>(() => new Date().toISOString());
   const [verified, setVerified] = useState(false);
+  const [queuedCount, setQueuedCount] = useState(0);
+  const [syncing, setSyncing] = useState(false);
+  const online = useOnline();
 
   useEffect(() => {
     const existing = loadSession();
     setSession(existing);
     if (existing) setPhone(existing.phone);
   }, []);
+
+  // Restore whatever was typed before the connection (or the tab) died.
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      const [draft, queue] = await Promise.all([loadDraft(), loadQueue()]);
+      if (cancelled) return;
+      setQueuedCount(queue.length);
+      if (!draft) return;
+      setTitle((v) => v || draft.title);
+      setPrice((v) => v || draft.price);
+      setCategory((v) => v || draft.category);
+      setDescription((v) => v || draft.description);
+      setState((v) => v || draft.state);
+      setCity((v) => v || draft.city);
+      setPhone((v) => v || draft.phone);
+      if (draft.photo) {
+        setFile(new File([draft.photo], draft.photoName || "photo.jpg", { type: draft.photo.type }));
+        setStep(2);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Autosave the draft to IndexedDB as they type.
+  useEffect(() => {
+    if (publishedId) return;
+    if (!title && !price && !file) return;
+    const t = setTimeout(() => {
+      void saveDraft({
+        title,
+        price,
+        category,
+        description,
+        state,
+        city,
+        phone,
+        photo: file ?? undefined,
+        photoName: file?.name,
+        updatedAt: Date.now(),
+      });
+    }, 600);
+    return () => clearTimeout(t);
+  }, [title, price, category, description, state, city, phone, file, publishedId]);
+
+  // Connection back? Flush anything queued while offline.
+  useEffect(() => {
+    if (!online || syncing || queuedCount === 0) return;
+    let cancelled = false;
+    void (async () => {
+      setSyncing(true);
+      try {
+        const queue = await loadQueue();
+        for (const job of queue) {
+          if (cancelled) break;
+          try {
+            const active =
+              session && session.phone === job.phone.replace(/[^0-9]/g, "")
+                ? session
+                : await claimBay({ phone: job.phone, state: job.state, city: job.city });
+            if (!job.photo) {
+              await removeQueued(job.id);
+              continue;
+            }
+            const imagePath = await uploadPhoto(
+              new File([job.photo], job.photoName || "photo.jpg", { type: job.photo.type }),
+            );
+            const id = await createItem({
+              sellerId: active.sellerId,
+              sellerKey: active.sellerKey,
+              title: job.title.trim(),
+              price: Number(job.price.replace(/[^0-9.]/g, "")),
+              category: job.category,
+              description: job.description.trim() || undefined,
+              imagePath,
+              state: job.state || undefined,
+              city: job.city || undefined,
+            });
+            await removeQueued(job.id);
+            if (cancelled) break;
+            setSession(active);
+            setPublishedAt(new Date().toISOString());
+            setPublishedId(id);
+          } catch {
+            break; // still flaky — try again on the next reconnect
+          }
+        }
+        const left = await loadQueue();
+        if (!cancelled) setQueuedCount(left.length);
+      } finally {
+        if (!cancelled) setSyncing(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [online, queuedCount, syncing, session]);
+
+
 
 
   useEffect(() => {
@@ -112,6 +218,26 @@ function PostPage() {
     if (!previewBayHandle(phone)) return setError("Enter a valid phone number.");
     if (!agreed) return setError("Accept the nairaBay Code to publish.");
 
+    // Data cut out? Keep the listing safe in IndexedDB and send it automatically later.
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      await queueListing({
+        title: cleanTitle,
+        price,
+        category,
+        description,
+        state,
+        city,
+        phone,
+        photo: file,
+        photoName: file.name,
+        updatedAt: Date.now(),
+      });
+      await clearDraft();
+      setQueuedCount((c) => c + 1);
+      setError("");
+      return;
+    }
+
     setBusy(true);
     try {
       const active =
@@ -131,6 +257,7 @@ function PostPage() {
         state: state || undefined,
         city: city || undefined,
       });
+      await clearDraft();
       setPublishedAt(new Date().toISOString());
       setPublishedId(id);
       setBusy(false);
@@ -392,13 +519,21 @@ function PostPage() {
 
           {error ? <p className="text-sm font-semibold text-destructive">{error}</p> : null}
 
+          {queuedCount > 0 ? (
+            <p className="rounded-2xl border border-border bg-secondary px-4 py-3 text-sm font-semibold">
+              {syncing
+                ? "📤 Data is back — publishing your saved listing…"
+                : `💾 ${queuedCount} listing${queuedCount > 1 ? "s" : ""} saved on this phone. It publishes automatically once your data returns.`}
+            </p>
+          ) : null}
+
           <button
             type="button"
             onClick={publish}
             disabled={busy}
             className="w-full rounded-2xl bg-primary px-5 py-4 text-lg font-bold text-primary-foreground shadow-soft disabled:opacity-60"
           >
-            {busy ? "Publishing…" : "🚀 Publish to nairaBay"}
+            {busy ? "Publishing…" : online ? "🚀 Publish to nairaBay" : "💾 Save & publish when data returns"}
           </button>
           <p className="text-center text-xs text-muted-foreground">
             This device remembers your Bay# — next time you just snap and publish.
