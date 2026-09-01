@@ -191,7 +191,41 @@ function PostPage() {
     setError("");
     setFile(selected);
     setStep(2);
+    void autoFillFromPhoto(selected);
   };
+
+  /** Vision auto-fill so sellers barely type: category, title, condition. */
+  const autoFillFromPhoto = async (selected: File) => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) return;
+    setAiBusy(true);
+    setAiNote("");
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(new Error("read failed"));
+        reader.readAsDataURL(selected);
+      });
+      const result = await analyze({ data: { imageDataUrl: dataUrl } });
+      if ("error" in result) {
+        setAiNote(result.error);
+        return;
+      }
+      setTitle((v) => v || result.suggested_title);
+      setCategory((v) => v || result.item_category);
+      setDescription(
+        (v) =>
+          v ||
+          [result.estimated_condition, result.suggested_description].filter(Boolean).join(". "),
+      );
+      setAiNote(`✨ Auto-filled: ${result.item_category} · ${result.estimated_condition}. Edit anything.`);
+    } catch {
+      setAiNote("");
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
 
   const useMyLocation = async () => {
     setLocating(true);
