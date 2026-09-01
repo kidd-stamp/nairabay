@@ -1,23 +1,36 @@
 import { Link } from "@tanstack/react-router";
 import { formatNaira, timeAgo, type Item } from "@/lib/nairabay";
 
-export function ItemCard({ item, imageUrl }: { item: Item; imageUrl?: string | undefined }) {
+export function ItemCard({
+  item,
+  imageUrl,
+  priority = false,
+}: {
+  item: Item;
+  imageUrl?: string | undefined;
+  priority?: boolean;
+}) {
   return (
     <Link
       to="/item/$id"
       params={{ id: item.id }}
-      className="surface-card group block overflow-hidden transition-shadow hover:shadow-lift"
+      className="surface-card group block snap-start overflow-hidden transition-shadow hover:shadow-lift"
     >
       <div className="relative aspect-square overflow-hidden bg-muted">
         {imageUrl ? (
           <img
             src={imageUrl}
             alt={item.title}
-            loading="lazy"
+            width={600}
+            height={600}
+            loading={priority ? "eager" : "lazy"}
+            decoding="async"
+            {...(priority ? { fetchPriority: "high" as const } : {})}
+            sizes="(max-width: 768px) 50vw, 300px"
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
         ) : (
-          <div className="h-full w-full animate-pulse bg-muted" />
+          <div className="h-full w-full bg-muted" />
         )}
         {item.status === "sold" ? (
           <span className="absolute left-2 top-2 rounded-full bg-foreground/85 px-3 py-1 text-xs font-bold text-background">

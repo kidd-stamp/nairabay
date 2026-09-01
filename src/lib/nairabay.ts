@@ -163,20 +163,25 @@ export async function signedImageUrls(paths: string[]) {
   return map;
 }
 
+/** Feed rows only: no description, no joined seller — keeps the payload tiny on 2G/3G. */
+const LIST_COLUMNS =
+  "id, seller_id, title, price, category, image_path, location_state, location_city, status, views, created_at";
+
 export async function fetchItems(
   opts: {
     category?: string | undefined;
     search?: string | undefined;
     state?: string | undefined;
     city?: string | undefined;
+    limit?: number | undefined;
   } = {},
 ) {
   let query = supabase
     .from("items")
-    .select(`id, seller_id, title, price, category, description, image_path, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
+    .select(LIST_COLUMNS)
     .eq("status", "active")
     .order("created_at", { ascending: false })
-    .limit(60);
+    .limit(opts.limit ?? 30);
 
   if (opts.category) query = query.eq("category", opts.category);
   if (opts.state) query = query.eq("location_state", opts.state);
@@ -187,6 +192,7 @@ export async function fetchItems(
   if (error) throw error;
   return (data ?? []) as unknown as Item[];
 }
+
 
 export async function fetchItem(id: string) {
   const { data, error } = await supabase

@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import heroImage from "@/assets/hero.jpg";
 import { Header } from "@/components/nairabay/Header";
 import { ItemCard } from "@/components/nairabay/ItemCard";
@@ -30,14 +30,21 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState("");
+  const [debounced, setDebounced] = useState("");
   const [state, setState] = useState("");
 
+  // Debounce typing so slow networks make one request, not one per keystroke.
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(search.trim()), 400);
+    return () => clearTimeout(t);
+  }, [search]);
+
   const { data: items = [], isLoading } = useQuery({
-    queryKey: ["items", category, search, state],
+    queryKey: ["items", category, debounced, state],
     queryFn: () =>
       fetchItems({
         category: category || undefined,
-        search: search || undefined,
+        search: debounced || undefined,
         state: state || undefined,
       }),
   });
@@ -48,6 +55,7 @@ function Home() {
     queryFn: () => signedImageUrls(paths),
     enabled: paths.length > 0,
   });
+
 
   return (
     <div className="min-h-screen">
@@ -85,8 +93,12 @@ function Home() {
             alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on nairaBay"
             width={1600}
             height={1000}
+            decoding="async"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 600px"
             className="h-56 w-full object-cover md:h-full"
           />
+
         </div>
       </section>
 
@@ -111,7 +123,7 @@ function Home() {
               </option>
             ))}
           </select>
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <CategoryPill label="All" active={category === ""} onClick={() => setCategory("")} />
             {CATEGORIES.map((c) => (
               <CategoryPill key={c} label={c} active={category === c} onClick={() => setCategory(c)} />
@@ -121,13 +133,19 @@ function Home() {
 
         <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
           {isLoading
-            ? Array.from({ length: 8 }).map((_, i) => (
+            ? Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="surface-card h-64 animate-pulse" />
               ))
-            : items.map((item) => (
-                <ItemCard key={item.id} item={item} imageUrl={urls[item.image_path]} />
+            : items.map((item, i) => (
+                <ItemCard
+                  key={item.id}
+                  item={item}
+                  imageUrl={urls[item.image_path]}
+                  priority={i < 2}
+                />
               ))}
         </div>
+
 
         {!isLoading && items.length === 0 ? (
           <div className="surface-card mt-6 p-10 text-center">
