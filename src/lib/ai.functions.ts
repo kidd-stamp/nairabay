@@ -48,7 +48,8 @@ export const analyzeListingPhoto = createServerFn({ method: "POST" })
                   `{"item_category": one of ${JSON.stringify(CATEGORIES)}, ` +
                   `"suggested_title": short listing title under 60 chars (brand + model if visible), ` +
                   `"estimated_condition": one of "Brand New","Fairly Used","Used","Needs Repair", ` +
-                  `"suggested_description": one plain sentence a buyer would find useful}. No markdown.`,
+                  `"suggested_description": one plain sentence a buyer would find useful}. ` +
+                  `Describe only the single main item for sale. Return one JSON object, not an array. No markdown.`,
               },
               { type: "image_url", image_url: { url: data.imageDataUrl } },
             ],
