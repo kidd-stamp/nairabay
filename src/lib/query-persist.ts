@@ -23,7 +23,8 @@ export function startQueryPersistence(queryClient: QueryClient) {
   });
 
   persistQueryClient({
-    queryClient,
+    // Cast keeps this working when the installer hoists two copies of query-core.
+    queryClient: queryClient as unknown as Parameters<typeof persistQueryClient>[0]["queryClient"],
     persister,
     maxAge: 7 * 24 * 60 * 60 * 1000,
     buster: "v1",

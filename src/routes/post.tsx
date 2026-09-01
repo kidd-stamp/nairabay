@@ -19,6 +19,9 @@ import {
 } from "@/lib/nairabay";
 import { clearDraft, loadDraft, loadQueue, queueListing, removeQueued, saveDraft } from "@/lib/offline";
 import { useOnline } from "@/hooks/useOnline";
+import { useServerFn } from "@tanstack/react-start";
+import { analyzeListingPhoto } from "@/lib/ai.functions";
+
 
 export const Route = createFileRoute("/post")({
   head: () => ({
@@ -65,6 +68,10 @@ function PostPage() {
   const [verified, setVerified] = useState(false);
   const [queuedCount, setQueuedCount] = useState(0);
   const [syncing, setSyncing] = useState(false);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiNote, setAiNote] = useState("");
+  const analyze = useServerFn(analyzeListingPhoto);
+
   const online = useOnline();
 
   useEffect(() => {
@@ -191,7 +198,41 @@ function PostPage() {
     setError("");
     setFile(selected);
     setStep(2);
+    void autoFillFromPhoto(selected);
   };
+
+  /** Vision auto-fill so sellers barely type: category, title, condition. */
+  const autoFillFromPhoto = async (selected: File) => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) return;
+    setAiBusy(true);
+    setAiNote("");
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result));
+        reader.onerror = () => reject(new Error("read failed"));
+        reader.readAsDataURL(selected);
+      });
+      const result = await analyze({ data: { imageDataUrl: dataUrl } });
+      if ("error" in result) {
+        setAiNote(result.error);
+        return;
+      }
+      setTitle((v) => v || result.suggested_title);
+      setCategory((v) => v || result.item_category);
+      setDescription(
+        (v) =>
+          v ||
+          [result.estimated_condition, result.suggested_description].filter(Boolean).join(". "),
+      );
+      setAiNote(`✨ Auto-filled: ${result.item_category} · ${result.estimated_condition}. Edit anything.`);
+    } catch {
+      setAiNote("");
+    } finally {
+      setAiBusy(false);
+    }
+  };
+
 
   const useMyLocation = async () => {
     setLocating(true);
@@ -380,7 +421,15 @@ function PostPage() {
               📸 Open camera / upload photo
             </button>
           )}
+          {aiBusy ? (
+            <p className="mt-3 text-sm font-semibold text-muted-foreground">
+              🤖 Reading your photo — filling the details for you…
+            </p>
+          ) : aiNote ? (
+            <p className="mt-3 text-sm font-semibold text-muted-foreground">{aiNote}</p>
+          ) : null}
         </div>
+
 
         {/* Step 2 — details */}
         <div className="surface-card mt-4 space-y-4 p-5">
