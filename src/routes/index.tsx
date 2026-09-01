@@ -93,8 +93,12 @@ function Home() {
             alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on nairaBay"
             width={1600}
             height={1000}
+            decoding="async"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 600px"
             className="h-56 w-full object-cover md:h-full"
           />
+
         </div>
       </section>
 
