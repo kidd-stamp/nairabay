@@ -14,6 +14,116 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_role: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_role: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_users: {
+        Row: {
+          chat_key: string
+          city: string | null
+          created_at: string
+          handle: string
+          id: string
+          phone_number: string
+        }
+        Insert: {
+          chat_key?: string
+          city?: string | null
+          created_at?: string
+          handle: string
+          id?: string
+          phone_number: string
+        }
+        Update: {
+          chat_key?: string
+          city?: string | null
+          created_at?: string
+          handle?: string
+          id?: string
+          phone_number?: string
+        }
+        Relationships: []
+      }
+      conversations: {
+        Row: {
+          buyer_handle: string
+          buyer_kind: string
+          buyer_party_id: string
+          created_at: string
+          id: string
+          item_id: string
+          last_message_at: string
+          seller_id: string
+        }
+        Insert: {
+          buyer_handle: string
+          buyer_kind: string
+          buyer_party_id: string
+          created_at?: string
+          id?: string
+          item_id: string
+          last_message_at?: string
+          seller_id: string
+        }
+        Update: {
+          buyer_handle?: string
+          buyer_kind?: string
+          buyer_party_id?: string
+          created_at?: string
+          id?: string
+          item_id?: string
+          last_message_at?: string
+          seller_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "conversations_seller_id_fkey"
+            columns: ["seller_id"]
+            isOneToOne: false
+            referencedRelation: "sellers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       items: {
         Row: {
           category: string
@@ -246,6 +356,64 @@ export type Database = {
         }[]
       }
       bump_item_views: { Args: { _item_id: string }; Returns: undefined }
+      chat_claim_identity: {
+        Args: { _city?: string; _phone: string }
+        Returns: {
+          chat_key: string
+          handle: string
+          kind: string
+          party_id: string
+        }[]
+      }
+      chat_inbox: {
+        Args: { _chat_key: string; _party_id: string }
+        Returns: {
+          id: string
+          item_id: string
+          item_image_path: string
+          item_title: string
+          last_body: string
+          last_message_at: string
+          my_role: string
+          other_handle: string
+          unread: number
+        }[]
+      }
+      chat_open_conversation: {
+        Args: { _chat_key: string; _item_id: string; _party_id: string }
+        Returns: string
+      }
+      chat_party_kind: {
+        Args: { _chat_key: string; _party_id: string }
+        Returns: string
+      }
+      chat_role_in: {
+        Args: { _chat_key: string; _conversation_id: string; _party_id: string }
+        Returns: string
+      }
+      chat_send: {
+        Args: {
+          _body: string
+          _chat_key: string
+          _conversation_id: string
+          _party_id: string
+        }
+        Returns: string
+      }
+      chat_thread: {
+        Args: { _chat_key: string; _conversation_id: string; _party_id: string }
+        Returns: {
+          body: string
+          created_at: string
+          id: string
+          mine: boolean
+          sender_role: string
+        }[]
+      }
+      chat_unread_count: {
+        Args: { _chat_key: string; _party_id: string }
+        Returns: number
+      }
       claim_bay: {
         Args: {
           _city?: string
