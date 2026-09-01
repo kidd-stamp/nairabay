@@ -384,7 +384,6 @@ function PostPage() {
             ref={fileRef}
             type="file"
             accept="image/*"
-            capture="environment"
             className="hidden"
             onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
           />
@@ -418,7 +417,7 @@ function PostPage() {
               onClick={() => fileRef.current?.click()}
               className="mt-3 w-full rounded-2xl bg-primary px-5 py-6 text-lg font-bold text-primary-foreground shadow-soft"
             >
-              📸 Open camera / upload photo
+              📸 Open camera or upload photo
             </button>
           )}
           {aiBusy ? (
