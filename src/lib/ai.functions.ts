@@ -70,7 +70,9 @@ export const analyzeListingPhoto = createServerFn({ method: "POST" })
     };
     const raw = json.choices?.[0]?.message?.content ?? "";
     try {
-      const parsed = JSON.parse(raw.replace(/^```(?:json)?|```$/g, "").trim()) as PhotoSuggestion;
+      const decoded = JSON.parse(raw.replace(/^```(?:json)?|```$/g, "").trim()) as unknown;
+      // Models sometimes answer with an array of detected items — take the first.
+      const parsed = (Array.isArray(decoded) ? decoded[0] : decoded) as PhotoSuggestion;
       const category = CATEGORIES.includes(parsed.item_category as (typeof CATEGORIES)[number])
         ? parsed.item_category
         : "Other";
