@@ -32,6 +32,12 @@ export function Header() {
           >
             The Code
           </Link>
+          <Link
+            to="/verify"
+            className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
+          >
+            Verify
+          </Link>
           {session ? (
             <Link
               to="/bay/$handle"

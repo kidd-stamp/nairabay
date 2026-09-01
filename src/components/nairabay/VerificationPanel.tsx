@@ -16,6 +16,8 @@ type Props = {
   /** When the listing was created — drives the countdown. */
   createdAt: string;
   verified: boolean;
+  /** Hide the edit-number control when we don't hold this bay's secret key. */
+  allowEdit?: boolean;
   onSessionChange?: (session: BaySession) => void;
   onVerified?: () => void;
 };
@@ -34,6 +36,7 @@ export function VerificationPanel({
   session,
   createdAt,
   verified,
+  allowEdit = true,
   onSessionChange,
   onVerified,
 }: Props) {
@@ -43,6 +46,7 @@ export function VerificationPanel({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
+  const [checking, setChecking] = useState(false);
 
   const deadline = new Date(createdAt).getTime() + VERIFY_GRACE_HOURS * 3600_000;
   const msLeft = deadline - now;
@@ -134,7 +138,7 @@ export function VerificationPanel({
           Verifying number: <span className="font-mono">{session.phone}</span>
         </p>
         <p className="text-xs text-muted-foreground">Bay# #{session.bayHandle}</p>
-        {!editing ? (
+        {!allowEdit ? null : !editing ? (
           <button
             type="button"
             onClick={() => {
@@ -191,6 +195,28 @@ export function VerificationPanel({
       >
         💬 Open my SMS app &amp; send {VERIFY_KEYWORD}
       </a>
+
+      <button
+        type="button"
+        disabled={checking}
+        onClick={async () => {
+          setChecking(true);
+          setError("");
+          setNotice("");
+          try {
+            const status = await fetchSellerVerification(session.sellerId);
+            if (status.verified) onVerified?.();
+            else setNotice("No VERIFY text received yet — send it and tap again in a moment.");
+          } catch {
+            setError("Could not check right now. Try again.");
+          } finally {
+            setChecking(false);
+          }
+        }}
+        className="w-full rounded-2xl border border-border px-5 py-3 text-sm font-bold disabled:opacity-60"
+      >
+        {checking ? "Checking…" : "🔄 I've sent it — check my verification now"}
+      </button>
 
       {notice ? <p className="text-xs font-bold text-whatsapp">{notice}</p> : null}
       {error ? <p className="text-xs font-bold text-destructive">{error}</p> : null}

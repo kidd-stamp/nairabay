@@ -185,6 +185,7 @@ export type Database = {
           image_path: string
           location_city: string
           location_state: string
+          phone_number: string
           phone_verified_at: string
           price: number
           seller_id: string

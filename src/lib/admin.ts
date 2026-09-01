@@ -41,6 +41,7 @@ export type AdminItem = {
   seller_id: string;
   bay_handle: string;
   phone_verified_at: string | null;
+  phone_number: string;
 };
 
 export type AdminStats = {
