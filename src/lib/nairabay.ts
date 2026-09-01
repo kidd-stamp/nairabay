@@ -136,14 +136,28 @@ const SELLER_COLUMNS =
 export async function fetchSellerVerification(sellerId: string) {
   const { data, error } = await supabase
     .from("sellers")
-    .select("phone_verified_at, bay_handle")
+    .select("phone_verified_at, bay_handle, created_at")
     .eq("id", sellerId)
     .maybeSingle();
   if (error) throw error;
   return {
     verified: Boolean(data?.phone_verified_at),
     bayHandle: (data?.bay_handle as string | undefined) ?? "",
+    createdAt: (data?.created_at as string | undefined) ?? new Date().toISOString(),
   };
+}
+
+/** Look up an existing bay by phone number — used by the in-app VERIFY flow. */
+export async function findSellerByPhone(phone: string) {
+  const digits = digitsOnly(phone);
+  if (digits.length < 7) return null;
+  const { data, error } = await supabase
+    .from("sellers")
+    .select(SELLER_COLUMNS)
+    .eq("phone_number", digits)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as Seller | null) ?? null;
 }
 
 export async function signedImageUrl(path: string) {

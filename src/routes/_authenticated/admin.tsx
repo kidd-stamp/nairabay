@@ -317,7 +317,7 @@ function ListingsTab() {
         </div>
         <Input
           className="flex-1"
-          placeholder="Search title or Bay#"
+          placeholder="Search title, Bay# or phone"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -333,6 +333,12 @@ function ListingsTab() {
               {formatNaira(Number(i.price))} · {i.category} · Bay #{i.bay_handle} ·{" "}
               {i.location_city || i.location_state || "Nigeria"} · {i.views} views ·{" "}
               {timeAgo(i.created_at)}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              📞 {i.phone_number}{" "}
+              <Badge variant={i.phone_verified_at ? "default" : "secondary"}>
+                {i.phone_verified_at ? "verified" : "unverified"}
+              </Badge>
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
