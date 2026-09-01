@@ -148,11 +148,102 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      admin_list_items: {
+        Args: { _search?: string; _status?: string }
+        Returns: {
+          bay_handle: string
+          category: string
+          created_at: string
+          description: string
+          id: string
+          image_path: string
+          location_city: string
+          location_state: string
+          phone_verified_at: string
+          price: number
+          seller_id: string
+          status: string
+          title: string
+          views: number
+        }[]
+      }
+      admin_list_reports: {
+        Args: { _status?: string }
+        Returns: {
+          bay_handle: string
+          created_at: string
+          details: string
+          id: string
+          item_id: string
+          item_status: string
+          item_title: string
+          phone_verified_at: string
+          reason: string
+          seller_id: string
+          status: string
+        }[]
+      }
+      admin_list_sellers: {
+        Args: { _search?: string }
+        Returns: {
+          bay_handle: string
+          created_at: string
+          display_name: string
+          id: string
+          item_count: number
+          location_city: string
+          location_state: string
+          phone_number: string
+          phone_verified_at: string
+        }[]
+      }
+      admin_set_item_status: {
+        Args: { _item_id: string; _status: string }
+        Returns: boolean
+      }
+      admin_set_report_status: {
+        Args: { _report_id: string; _status: string }
+        Returns: boolean
+      }
+      admin_set_seller_verified: {
+        Args: { _seller_id: string; _verified: boolean }
+        Returns: boolean
+      }
+      admin_stats: {
+        Args: never
+        Returns: {
+          active_items: number
+          open_reports: number
+          sellers_total: number
+          unverified_sellers: number
+        }[]
+      }
       bump_item_views: { Args: { _item_id: string }; Returns: undefined }
       claim_bay: {
         Args: {
@@ -180,6 +271,13 @@ export type Database = {
           _title: string
         }
         Returns: string
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
       item_is_visible: {
         Args: { _created_at: string; _seller_id: string }
@@ -215,7 +313,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -342,6 +440,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator"],
+    },
   },
 } as const
