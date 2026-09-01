@@ -193,6 +193,10 @@ function ItemPage() {
             />
           ) : null}
 
+          {seller ? (
+            <ChatPanel itemId={item.id} sellerHandle={seller.bay_handle} isOwner={isOwner} />
+          ) : null}
+
           <SafetyNotice bayHandle={seller?.bay_handle} />
 
           {seller && currentStatus === "active" ? (
@@ -205,6 +209,7 @@ function ItemPage() {
               💬 Chat seller on WhatsApp
             </a>
           ) : null}
+
 
           {isOwner ? (
             <div className="surface-card flex flex-wrap gap-3 p-4 text-sm font-bold">
