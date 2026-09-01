@@ -1,13 +1,25 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { loadSession, type BaySession } from "@/lib/nairabay";
+import { fetchUnreadCount, loadChatIdentity, type ChatIdentity } from "@/lib/chat";
 
 export function Header() {
   const [session, setSession] = useState<BaySession | null>(null);
+  const [identity, setIdentity] = useState<ChatIdentity | null>(null);
 
   useEffect(() => {
     setSession(loadSession());
+    setIdentity(loadChatIdentity());
   }, []);
+
+  const { data: unread } = useQuery({
+    queryKey: ["chat-unread", identity?.partyId],
+    queryFn: () => fetchUnreadCount(identity!),
+    enabled: Boolean(identity),
+    refetchInterval: 10000,
+  });
+
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
