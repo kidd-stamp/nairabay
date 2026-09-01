@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { Header } from "@/components/nairabay/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -35,6 +33,7 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
@@ -45,6 +44,7 @@ function AuthPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
+    setMessage(null);
     try {
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -57,20 +57,12 @@ function AuthPage() {
           options: { emailRedirectTo: `${window.location.origin}/admin` },
         });
         if (error) throw error;
-        toast.success("Account created. Ask an owner to grant you admin access.");
+        setMessage("Account created. Ask an owner to grant you admin access.");
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not sign in");
+      setMessage(err instanceof Error ? err.message : "Could not sign in");
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function handleGoogle() {
-    try {
-      await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Google sign in failed");
     }
   }
 
@@ -110,9 +102,7 @@ function AuthPage() {
           <Button type="submit" className="w-full" disabled={busy}>
             {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create team account"}
           </Button>
-          <Button type="button" variant="outline" className="w-full" onClick={handleGoogle}>
-            Continue with Google
-          </Button>
+          {message ? <p className="text-sm text-muted-foreground">{message}</p> : null}
           <button
             type="button"
             className="w-full text-sm text-muted-foreground underline"
