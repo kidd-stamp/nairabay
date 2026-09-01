@@ -19,6 +19,9 @@ import {
 } from "@/lib/nairabay";
 import { clearDraft, loadDraft, loadQueue, queueListing, removeQueued, saveDraft } from "@/lib/offline";
 import { useOnline } from "@/hooks/useOnline";
+import { useServerFn } from "@tanstack/react-start";
+import { analyzeListingPhoto } from "@/lib/ai.functions";
+
 
 export const Route = createFileRoute("/post")({
   head: () => ({
