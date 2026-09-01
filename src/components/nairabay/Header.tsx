@@ -50,6 +50,20 @@ export function Header() {
           >
             Verify
           </Link>
+          {identity ? (
+            <Link
+              to="/inbox"
+              className="relative rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground"
+              aria-label={unread ? `Inbox, ${unread} unread messages` : "Inbox"}
+            >
+              💬
+              {unread ? (
+                <span className="absolute -right-0 -top-0 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                  {unread > 9 ? "9+" : unread}
+                </span>
+              ) : null}
+            </Link>
+          ) : null}
           {session ? (
             <Link
               to="/bay/$handle"
@@ -60,6 +74,7 @@ export function Header() {
               #{session.bayHandle}
             </Link>
           ) : null}
+
           <Link
             to="/post"
             className="rounded-full bg-primary px-4 py-2 text-primary-foreground shadow-soft transition-transform hover:scale-[1.03]"
