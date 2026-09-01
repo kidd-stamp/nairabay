@@ -65,6 +65,10 @@ function PostPage() {
   const [verified, setVerified] = useState(false);
   const [queuedCount, setQueuedCount] = useState(0);
   const [syncing, setSyncing] = useState(false);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiNote, setAiNote] = useState("");
+  const analyze = useServerFn(analyzeListingPhoto);
+
   const online = useOnline();
 
   useEffect(() => {
