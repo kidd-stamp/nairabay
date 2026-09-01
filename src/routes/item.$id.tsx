@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Header } from "@/components/nairabay/Header";
 import { ReportBayDialog } from "@/components/nairabay/ReportBayDialog";
+import { ChatPanel } from "@/components/nairabay/ChatPanel";
+
 
 import { SafetyNotice } from "@/components/nairabay/SafetyNotice";
 import { VerificationPanel } from "@/components/nairabay/VerificationPanel";
@@ -193,6 +195,10 @@ function ItemPage() {
             />
           ) : null}
 
+          {seller ? (
+            <ChatPanel itemId={item.id} sellerHandle={seller.bay_handle} isOwner={isOwner} />
+          ) : null}
+
           <SafetyNotice bayHandle={seller?.bay_handle} />
 
           {seller && currentStatus === "active" ? (
@@ -205,6 +211,7 @@ function ItemPage() {
               💬 Chat seller on WhatsApp
             </a>
           ) : null}
+
 
           {isOwner ? (
             <div className="surface-card flex flex-wrap gap-3 p-4 text-sm font-bold">

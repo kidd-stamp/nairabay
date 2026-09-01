@@ -1,13 +1,25 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { loadSession, type BaySession } from "@/lib/nairabay";
+import { fetchUnreadCount, loadChatIdentity, type ChatIdentity } from "@/lib/chat";
 
 export function Header() {
   const [session, setSession] = useState<BaySession | null>(null);
+  const [identity, setIdentity] = useState<ChatIdentity | null>(null);
 
   useEffect(() => {
     setSession(loadSession());
+    setIdentity(loadChatIdentity());
   }, []);
+
+  const { data: unread } = useQuery({
+    queryKey: ["chat-unread", identity?.partyId],
+    queryFn: () => fetchUnreadCount(identity!),
+    enabled: Boolean(identity),
+    refetchInterval: 10000,
+  });
+
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
@@ -38,6 +50,20 @@ export function Header() {
           >
             Verify
           </Link>
+          {identity ? (
+            <Link
+              to="/inbox"
+              className="relative rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground"
+              aria-label={unread ? `Inbox, ${unread} unread messages` : "Inbox"}
+            >
+              💬
+              {unread ? (
+                <span className="absolute -right-0 -top-0 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
+                  {unread > 9 ? "9+" : unread}
+                </span>
+              ) : null}
+            </Link>
+          ) : null}
           {session ? (
             <Link
               to="/bay/$handle"
@@ -48,6 +74,7 @@ export function Header() {
               #{session.bayHandle}
             </Link>
           ) : null}
+
           <Link
             to="/post"
             className="rounded-full bg-primary px-4 py-2 text-primary-foreground shadow-soft transition-transform hover:scale-[1.03]"
