@@ -56,6 +56,11 @@ function PostPage() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState("");
+  const [brandModel, setBrandModel] = useState("");
+  const [size, setSize] = useState("");
+  const [condition, setCondition] = useState("");
+  const [reasonForSelling, setReasonForSelling] = useState("");
+  const [color, setColor] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
@@ -92,6 +97,11 @@ function PostPage() {
       setPrice((v) => v || draft.price);
       setCategory((v) => v || draft.category);
       setDescription((v) => v || draft.description);
+      setBrandModel((v) => v || draft.brandModel);
+      setSize((v) => v || draft.size);
+      setCondition((v) => v || draft.condition);
+      setReasonForSelling((v) => v || draft.reasonForSelling);
+      setColor((v) => v || draft.color);
       setState((v) => v || draft.state);
       setCity((v) => v || draft.city);
       setPhone((v) => v || draft.phone);
@@ -115,6 +125,11 @@ function PostPage() {
         price,
         category,
         description,
+        brandModel,
+        size,
+        condition,
+        reasonForSelling,
+        color,
         state,
         city,
         phone,
@@ -124,7 +139,7 @@ function PostPage() {
       });
     }, 600);
     return () => clearTimeout(t);
-  }, [title, price, category, description, state, city, phone, file, publishedId]);
+  }, [title, price, category, description, brandModel, size, condition, reasonForSelling, color, state, city, phone, file, publishedId]);
 
   // Connection back? Flush anything queued while offline.
   useEffect(() => {
@@ -154,7 +169,14 @@ function PostPage() {
               title: job.title.trim(),
               price: Number(job.price.replace(/[^0-9.]/g, "")),
               category: job.category,
-              description: job.description.trim() || undefined,
+              description: buildListingDescription({
+                brandModel: job.brandModel,
+                size: job.size,
+                condition: job.condition,
+                reasonForSelling: job.reasonForSelling,
+                color: job.color,
+                description: job.description,
+              }),
               imagePath,
               state: job.state || undefined,
               city: job.city || undefined,
@@ -220,11 +242,8 @@ function PostPage() {
       }
       setTitle((v) => v || result.suggested_title);
       setCategory((v) => v || result.item_category);
-      setDescription(
-        (v) =>
-          v ||
-          [result.estimated_condition, result.suggested_description].filter(Boolean).join(". "),
-      );
+      setCondition((v) => v || mapAiCondition(result.estimated_condition));
+      setDescription((v) => v || result.suggested_description || "");
       setAiNote(`✨ Auto-filled: ${result.item_category} · ${result.estimated_condition}. Edit anything.`);
     } catch {
       setAiNote("");
@@ -233,6 +252,35 @@ function PostPage() {
     }
   };
 
+
+  const mapAiCondition = (raw: string) => {
+    const lower = raw.toLowerCase();
+    if (lower.includes("new") && !lower.includes("used")) return "new";
+    if (lower.includes("opened") || lower.includes("open box")) return "opened";
+    if (lower.includes("used") || lower.includes("fairly") || lower.includes("pre-owned")) return "used";
+    return "";
+  };
+
+  const buildListingDescription = (draft?: {
+    brandModel?: string;
+    size?: string;
+    condition?: string;
+    reasonForSelling?: string;
+    color?: string;
+    description?: string;
+  }) => {
+    const d = draft ?? {};
+    const parts = [
+      (d.brandModel ?? brandModel).trim() && `Brand & Model: ${(d.brandModel ?? brandModel).trim()}`,
+      (d.size ?? size).trim() && `Size: ${(d.size ?? size).trim()}`,
+      (d.condition ?? condition) &&
+        `Condition: ${((d.condition ?? condition).charAt(0).toUpperCase() + (d.condition ?? condition).slice(1))}`,
+      (d.reasonForSelling ?? reasonForSelling) && `Reason for selling: ${d.reasonForSelling ?? reasonForSelling}`,
+      (d.color ?? color).trim() && `Color: ${(d.color ?? color).trim()}`,
+      (d.description ?? description).trim(),
+    ].filter(Boolean);
+    return parts.join("\n\n") || undefined;
+  };
 
   const useMyLocation = async () => {
     setLocating(true);
@@ -267,6 +315,11 @@ function PostPage() {
         price,
         category,
         description,
+        brandModel,
+        size,
+        condition,
+        reasonForSelling,
+        color,
         state,
         city,
         phone,
@@ -294,7 +347,7 @@ function PostPage() {
         title: cleanTitle,
         price: numericPrice,
         category,
-        description: description.trim() || undefined,
+        description: buildListingDescription(),
         imagePath,
         state: state || undefined,
         city: city || undefined,
@@ -443,6 +496,63 @@ function PostPage() {
               onChange={(e) => setTitle(e.target.value.slice(0, 100))}
               onFocus={() => setStep((s) => Math.max(s, 2))}
               placeholder="e.g. Clean iPhone 13 Pro Max, Nike Dunks..."
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Brand & Model (optional)">
+            <input
+              value={brandModel}
+              onChange={(e) => setBrandModel(e.target.value.slice(0, 100))}
+              placeholder="e.g. Apple iPhone 13 Pro Max"
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Size (optional)">
+            <input
+              value={size}
+              onChange={(e) => setSize(e.target.value.slice(0, 50))}
+              placeholder="e.g. 128GB, UK 10, Medium"
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Condition">
+            <select
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              className={inputClass}
+            >
+              <option value="">Select condition</option>
+              <option value="new">New</option>
+              <option value="used">Used</option>
+              <option value="opened">Opened</option>
+            </select>
+          </Field>
+
+          <Field label="Reason for selling">
+            <select
+              value={reasonForSelling}
+              onChange={(e) => setReasonForSelling(e.target.value)}
+              className={inputClass}
+            >
+              <option value="">Select reason</option>
+              <option value="side hustle">Side hustle</option>
+              <option value="retailer">Retailer</option>
+              <option value="wrong size">Wrong size</option>
+              <option value="clearing closet">Clearing closet</option>
+              <option value="owner">Owner</option>
+              <option value="selling for owner">Selling for owner</option>
+              <option value="lost and found">Lost and found</option>
+            </select>
+          </Field>
+
+          <Field label="Color (optional)">
+            <input
+              value={color}
+              onChange={(e) => setColor(e.target.value.slice(0, 50))}
+              placeholder="e.g. Black, Navy blue, Rose gold"
               className={inputClass}
             />
           </Field>
