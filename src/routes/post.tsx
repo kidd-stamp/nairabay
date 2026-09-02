@@ -246,6 +246,26 @@ function PostPage() {
   };
 
 
+  const mapAiCondition = (raw: string) => {
+    const lower = raw.toLowerCase();
+    if (lower.includes("new") && !lower.includes("used")) return "new";
+    if (lower.includes("opened") || lower.includes("open box")) return "opened";
+    if (lower.includes("used") || lower.includes("fairly") || lower.includes("pre-owned")) return "used";
+    return "";
+  };
+
+  const buildListingDescription = () => {
+    const parts = [
+      brandModel.trim() && `Brand & Model: ${brandModel.trim()}`,
+      size.trim() && `Size: ${size.trim()}`,
+      condition && `Condition: ${condition.charAt(0).toUpperCase() + condition.slice(1)}`,
+      reasonForSelling && `Reason for selling: ${reasonForSelling}`,
+      color.trim() && `Color: ${color.trim()}`,
+      description.trim(),
+    ].filter(Boolean);
+    return parts.join("\n\n") || undefined;
+  };
+
   const useMyLocation = async () => {
     setLocating(true);
     setError("");
