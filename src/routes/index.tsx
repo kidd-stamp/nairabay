@@ -169,6 +169,10 @@ function Home() {
           Sell safely
         </Link>{" "}
         ·{" "}
+        <Link to="/faq" className="underline underline-offset-4">
+          FAQ
+        </Link>{" "}
+        ·{" "}
         <Link to="/rules" className="underline underline-offset-4">
           The nairaBay Code
         </Link>
