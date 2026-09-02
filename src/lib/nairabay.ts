@@ -87,7 +87,7 @@ export function isFreshAccount(createdAt: string) {
 }
 
 /** The dedicated nairaBay SIM that receives verification texts. */
-export const VERIFY_NUMBER = "+234 808 742 2887";
+export const VERIFY_NUMBER = "+234 702 639 0848";
 export const VERIFY_KEYWORD = "VERIFY";
 /** Hours a brand-new listing stays live while the seller verifies by SMS. */
 export const VERIFY_GRACE_HOURS = 24;
