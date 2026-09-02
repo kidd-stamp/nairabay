@@ -45,6 +45,12 @@ export function Header() {
             Sell safely
           </Link>
           <Link
+            to="/faq"
+            className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
+          >
+            FAQ
+          </Link>
+          <Link
             to="/rules"
             className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
           >
