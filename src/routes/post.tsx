@@ -342,7 +342,7 @@ function PostPage() {
         title: cleanTitle,
         price: numericPrice,
         category,
-        description: description.trim() || undefined,
+        description: buildListingDescription(),
         imagePath,
         state: state || undefined,
         city: city || undefined,
