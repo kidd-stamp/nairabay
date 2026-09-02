@@ -254,14 +254,23 @@ function PostPage() {
     return "";
   };
 
-  const buildListingDescription = () => {
+  const buildListingDescription = (draft?: {
+    brandModel?: string;
+    size?: string;
+    condition?: string;
+    reasonForSelling?: string;
+    color?: string;
+    description?: string;
+  }) => {
+    const d = draft ?? {};
     const parts = [
-      brandModel.trim() && `Brand & Model: ${brandModel.trim()}`,
-      size.trim() && `Size: ${size.trim()}`,
-      condition && `Condition: ${condition.charAt(0).toUpperCase() + condition.slice(1)}`,
-      reasonForSelling && `Reason for selling: ${reasonForSelling}`,
-      color.trim() && `Color: ${color.trim()}`,
-      description.trim(),
+      (d.brandModel ?? brandModel).trim() && `Brand & Model: ${(d.brandModel ?? brandModel).trim()}`,
+      (d.size ?? size).trim() && `Size: ${(d.size ?? size).trim()}`,
+      (d.condition ?? condition) &&
+        `Condition: ${((d.condition ?? condition).charAt(0).toUpperCase() + (d.condition ?? condition).slice(1))}`,
+      (d.reasonForSelling ?? reasonForSelling) && `Reason for selling: ${d.reasonForSelling ?? reasonForSelling}`,
+      (d.color ?? color).trim() && `Color: ${(d.color ?? color).trim()}`,
+      (d.description ?? description).trim(),
     ].filter(Boolean);
     return parts.join("\n\n") || undefined;
   };
