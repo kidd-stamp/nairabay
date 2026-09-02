@@ -462,6 +462,63 @@ function PostPage() {
             />
           </Field>
 
+          <Field label="Brand & Model (optional)">
+            <input
+              value={brandModel}
+              onChange={(e) => setBrandModel(e.target.value.slice(0, 100))}
+              placeholder="e.g. Apple iPhone 13 Pro Max"
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Size (optional)">
+            <input
+              value={size}
+              onChange={(e) => setSize(e.target.value.slice(0, 50))}
+              placeholder="e.g. 128GB, UK 10, Medium"
+              className={inputClass}
+            />
+          </Field>
+
+          <Field label="Condition">
+            <select
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              className={inputClass}
+            >
+              <option value="">Select condition</option>
+              <option value="new">New</option>
+              <option value="used">Used</option>
+              <option value="opened">Opened</option>
+            </select>
+          </Field>
+
+          <Field label="Reason for selling">
+            <select
+              value={reasonForSelling}
+              onChange={(e) => setReasonForSelling(e.target.value)}
+              className={inputClass}
+            >
+              <option value="">Select reason</option>
+              <option value="side hustle">Side hustle</option>
+              <option value="retailer">Retailer</option>
+              <option value="wrong size">Wrong size</option>
+              <option value="clearing closet">Clearing closet</option>
+              <option value="owner">Owner</option>
+              <option value="selling for owner">Selling for owner</option>
+              <option value="lost and found">Lost and found</option>
+            </select>
+          </Field>
+
+          <Field label="Color (optional)">
+            <input
+              value={color}
+              onChange={(e) => setColor(e.target.value.slice(0, 50))}
+              placeholder="e.g. Black, Navy blue, Rose gold"
+              className={inputClass}
+            />
+          </Field>
+
           <Field label="Price (₦) — required">
             <input
               value={price}
