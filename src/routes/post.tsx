@@ -442,8 +442,32 @@ function PostPage() {
             type="file"
             accept="image/*"
             className="hidden"
-            onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+            onChange={(e) => {
+              handleFile(e.target.files?.[0] ?? null);
+              setSourceOpen(false);
+            }}
           />
+          <input
+            ref={cameraRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => {
+              handleFile(e.target.files?.[0] ?? null);
+              setSourceOpen(false);
+            }}
+          />
+          <input
+            ref={anyFileRef}
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              handleFile(e.target.files?.[0] ?? null);
+              setSourceOpen(false);
+            }}
+          />
+
           {preview ? (
             <div className="mt-3 flex items-center gap-4">
               <img
