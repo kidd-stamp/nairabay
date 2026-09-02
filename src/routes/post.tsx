@@ -97,6 +97,11 @@ function PostPage() {
       setPrice((v) => v || draft.price);
       setCategory((v) => v || draft.category);
       setDescription((v) => v || draft.description);
+      setBrandModel((v) => v || draft.brandModel);
+      setSize((v) => v || draft.size);
+      setCondition((v) => v || draft.condition);
+      setReasonForSelling((v) => v || draft.reasonForSelling);
+      setColor((v) => v || draft.color);
       setState((v) => v || draft.state);
       setCity((v) => v || draft.city);
       setPhone((v) => v || draft.phone);
@@ -120,6 +125,11 @@ function PostPage() {
         price,
         category,
         description,
+        brandModel,
+        size,
+        condition,
+        reasonForSelling,
+        color,
         state,
         city,
         phone,
