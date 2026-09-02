@@ -495,12 +495,58 @@ function PostPage() {
           ) : (
             <button
               type="button"
-              onClick={() => fileRef.current?.click()}
+              onClick={() => setSourceOpen(true)}
               className="mt-3 w-full rounded-2xl bg-primary px-5 py-6 text-lg font-bold text-primary-foreground shadow-soft"
             >
               📸 Open camera or upload photo
             </button>
           )}
+
+          {sourceOpen ? (
+            <div
+              className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/40 p-4"
+              onClick={() => setSourceOpen(false)}
+            >
+              <div
+                className="surface-card w-full max-w-lg space-y-2 p-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <p className="px-1 pb-1 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  Add photo from
+                </p>
+                {[
+                  { label: "🖼️ Photos", hint: "Pick from your gallery", run: () => fileRef.current?.click() },
+                  { label: "📷 Camera", hint: "Snap it right now", run: () => cameraRef.current?.click() },
+                  { label: "📁 Files", hint: "Browse your device files", run: () => anyFileRef.current?.click() },
+                  {
+                    label: "☁️ Drive",
+                    hint: "Open Google Drive, then pick the saved file",
+                    run: () => {
+                      window.open("https://drive.google.com/drive/my-drive", "_blank", "noopener");
+                      anyFileRef.current?.click();
+                    },
+                  },
+                ].map((opt) => (
+                  <button
+                    key={opt.label}
+                    type="button"
+                    onClick={opt.run}
+                    className="flex w-full items-center justify-between rounded-2xl border border-border px-4 py-3 text-left font-bold"
+                  >
+                    <span>{opt.label}</span>
+                    <span className="text-xs font-semibold text-muted-foreground">{opt.hint}</span>
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setSourceOpen(false)}
+                  className="w-full rounded-2xl px-4 py-3 text-sm font-bold text-muted-foreground"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          ) : null}
           {aiBusy ? (
             <p className="mt-3 text-sm font-semibold text-muted-foreground">
               🤖 Reading your photo — filling the details for you…
