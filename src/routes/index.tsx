@@ -165,6 +165,10 @@ function Home() {
 
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
         nairaBay — meet in public, inspect before you pay. ·{" "}
+        <Link to="/sell-safely" className="underline underline-offset-4">
+          Sell safely
+        </Link>{" "}
+        ·{" "}
         <Link to="/rules" className="underline underline-offset-4">
           The nairaBay Code
         </Link>

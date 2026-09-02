@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as InboxRouteImport } from './routes/inbox'
 import { Route as PostRouteImport } from './routes/post'
 import { Route as RulesRouteImport } from './routes/rules'
+import { Route as SellSafelyRouteImport } from './routes/sell-safely'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -52,6 +53,11 @@ const PostRoute = PostRouteImport.update({
 const RulesRoute = RulesRouteImport.update({
   id: '/rules',
   path: '/rules',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SellSafelyRoute = SellSafelyRouteImport.update({
+  id: '/sell-safely',
+  path: '/sell-safely',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/inbox': typeof InboxRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sell-safely': typeof SellSafelyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify': typeof VerifyRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/inbox': typeof InboxRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sell-safely': typeof SellSafelyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify': typeof VerifyRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/inbox': typeof InboxRoute
   '/post': typeof PostRoute
   '/rules': typeof RulesRoute
+  '/sell-safely': typeof SellSafelyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/verify': typeof VerifyRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/post'
     | '/rules'
+    | '/sell-safely'
     | '/sitemap.xml'
     | '/verify'
     | '/admin'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/post'
     | '/rules'
+    | '/sell-safely'
     | '/sitemap.xml'
     | '/verify'
     | '/admin'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/inbox'
     | '/post'
     | '/rules'
+    | '/sell-safely'
     | '/sitemap.xml'
     | '/verify'
     | '/_authenticated/admin'
@@ -209,6 +221,7 @@ export interface RootRouteChildren {
   InboxRoute: typeof InboxRoute
   PostRoute: typeof PostRoute
   RulesRoute: typeof RulesRoute
+  SellSafelyRoute: typeof SellSafelyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VerifyRoute: typeof VerifyRoute
   BayHandleRoute: typeof BayHandleRoute
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/rules'
       fullPath: '/rules'
       preLoaderRoute: typeof RulesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sell-safely': {
+      id: '/sell-safely'
+      path: '/sell-safely'
+      fullPath: '/sell-safely'
+      preLoaderRoute: typeof SellSafelyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -347,6 +367,7 @@ const rootRouteChildren: RootRouteChildren = {
   InboxRoute: InboxRoute,
   PostRoute: PostRoute,
   RulesRoute: RulesRoute,
+  SellSafelyRoute: SellSafelyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VerifyRoute: VerifyRoute,
   BayHandleRoute: BayHandleRoute,

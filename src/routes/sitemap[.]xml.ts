@@ -7,7 +7,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const urls: string[] = ["/", "/post", "/rules", "/nigeria"];
+        const urls: string[] = ["/", "/post", "/rules", "/sell-safely", "/nigeria"];
         for (const state of STATES) {
           urls.push(`/nigeria/${state.slug}`);
           for (const place of placesForState(state)) {
