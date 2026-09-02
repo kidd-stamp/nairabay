@@ -235,11 +235,8 @@ function PostPage() {
       }
       setTitle((v) => v || result.suggested_title);
       setCategory((v) => v || result.item_category);
-      setDescription(
-        (v) =>
-          v ||
-          [result.estimated_condition, result.suggested_description].filter(Boolean).join(". "),
-      );
+      setCondition((v) => v || mapAiCondition(result.estimated_condition));
+      setDescription((v) => v || result.suggested_description || "");
       setAiNote(`✨ Auto-filled: ${result.item_category} · ${result.estimated_condition}. Edit anything.`);
     } catch {
       setAiNote("");
