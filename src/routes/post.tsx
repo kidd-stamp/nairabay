@@ -56,6 +56,11 @@ function PostPage() {
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState<string>("");
   const [description, setDescription] = useState("");
+  const [brandModel, setBrandModel] = useState("");
+  const [size, setSize] = useState("");
+  const [condition, setCondition] = useState("");
+  const [reasonForSelling, setReasonForSelling] = useState("");
+  const [color, setColor] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");

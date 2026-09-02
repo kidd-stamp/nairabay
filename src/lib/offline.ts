@@ -13,6 +13,11 @@ export type ListingDraft = {
   price: string;
   category: string;
   description: string;
+  brandModel: string;
+  size: string;
+  condition: string;
+  reasonForSelling: string;
+  color: string;
   state: string;
   city: string;
   phone: string;
