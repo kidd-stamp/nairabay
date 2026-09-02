@@ -476,7 +476,7 @@ function PostPage() {
                 className="h-24 w-24 rounded-2xl object-cover"
               />
               <div className="flex flex-col gap-2 text-sm font-semibold">
-                <button type="button" className="underline underline-offset-4" onClick={() => fileRef.current?.click()}>
+                <button type="button" className="underline underline-offset-4" onClick={() => setSourceOpen(true)}>
                   Retake / change
                 </button>
                 <button
