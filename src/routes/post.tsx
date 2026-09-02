@@ -139,7 +139,7 @@ function PostPage() {
       });
     }, 600);
     return () => clearTimeout(t);
-  }, [title, price, category, description, state, city, phone, file, publishedId]);
+  }, [title, price, category, description, brandModel, size, condition, reasonForSelling, color, state, city, phone, file, publishedId]);
 
   // Connection back? Flush anything queued while offline.
   useEffect(() => {
