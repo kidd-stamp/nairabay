@@ -47,6 +47,9 @@ export const Route = createFileRoute("/post")({
 function PostPage() {
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const anyFileRef = useRef<HTMLInputElement>(null);
+  const [sourceOpen, setSourceOpen] = useState(false);
   const [session, setSession] = useState<BaySession | null>(null);
   const [step, setStep] = useState(1);
 
