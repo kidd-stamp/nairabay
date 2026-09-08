@@ -302,6 +302,7 @@ export async function createItem(input: {
   category: string;
   description?: string | undefined;
   imagePath: string;
+  extraImagePaths?: string[] | undefined;
   state?: string | undefined;
   city?: string | undefined;
 }) {
