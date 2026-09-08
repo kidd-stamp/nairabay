@@ -121,6 +121,7 @@ export type Item = {
   category: string;
   description: string | null;
   image_path: string;
+  extra_image_paths?: string[] | null;
   location_state: string | null;
   location_city: string | null;
   status: string;
