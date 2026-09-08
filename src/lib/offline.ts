@@ -23,6 +23,9 @@ export type ListingDraft = {
   phone: string;
   photo?: Blob | undefined;
   photoName?: string | undefined;
+  /** Up to 2 extra photos beyond the main one. */
+  extraPhotos?: Blob[] | undefined;
+  extraPhotoNames?: string[] | undefined;
   updatedAt: number;
 };
 

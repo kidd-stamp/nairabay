@@ -129,6 +129,7 @@ export type Database = {
           category: string
           created_at: string
           description: string | null
+          extra_image_paths: string[]
           id: string
           image_path: string
           location_city: string | null
@@ -143,6 +144,7 @@ export type Database = {
           category: string
           created_at?: string
           description?: string | null
+          extra_image_paths?: string[]
           id?: string
           image_path: string
           location_city?: string | null
@@ -157,6 +159,7 @@ export type Database = {
           category?: string
           created_at?: string
           description?: string | null
+          extra_image_paths?: string[]
           id?: string
           image_path?: string
           location_city?: string | null
@@ -427,20 +430,36 @@ export type Database = {
           seller_key: string
         }[]
       }
-      create_item: {
-        Args: {
-          _category: string
-          _city?: string
-          _description?: string
-          _image_path: string
-          _price: number
-          _seller_id: string
-          _seller_key: string
-          _state?: string
-          _title: string
-        }
-        Returns: string
-      }
+      create_item:
+        | {
+            Args: {
+              _category: string
+              _city?: string
+              _description?: string
+              _image_path: string
+              _price: number
+              _seller_id: string
+              _seller_key: string
+              _state?: string
+              _title: string
+            }
+            Returns: string
+          }
+        | {
+            Args: {
+              _category: string
+              _city?: string
+              _description?: string
+              _extra_image_paths?: string[]
+              _image_path: string
+              _price: number
+              _seller_id: string
+              _seller_key: string
+              _state?: string
+              _title: string
+            }
+            Returns: string
+          }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

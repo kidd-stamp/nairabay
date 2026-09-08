@@ -121,6 +121,7 @@ export type Item = {
   category: string;
   description: string | null;
   image_path: string;
+  extra_image_paths?: string[] | null;
   location_state: string | null;
   location_city: string | null;
   status: string;
@@ -211,7 +212,7 @@ export async function fetchItems(
 export async function fetchItem(id: string) {
   const { data, error } = await supabase
     .from("items")
-    .select(`id, seller_id, title, price, category, description, image_path, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
+    .select(`id, seller_id, title, price, category, description, image_path, extra_image_paths, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
     .eq("id", id)
     .maybeSingle();
   if (error) throw error;
@@ -301,6 +302,7 @@ export async function createItem(input: {
   category: string;
   description?: string | undefined;
   imagePath: string;
+  extraImagePaths?: string[] | undefined;
   state?: string | undefined;
   city?: string | undefined;
 }) {
@@ -311,6 +313,7 @@ export async function createItem(input: {
     _price: input.price,
     _category: input.category,
     _image_path: input.imagePath,
+    ...(input.extraImagePaths?.length ? { _extra_image_paths: input.extraImagePaths } : {}),
     ...(input.description ? { _description: input.description } : {}),
     ...(input.state ? { _state: input.state } : {}),
     ...(input.city ? { _city: input.city } : {}),
