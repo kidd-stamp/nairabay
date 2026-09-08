@@ -313,6 +313,7 @@ export async function createItem(input: {
     _price: input.price,
     _category: input.category,
     _image_path: input.imagePath,
+    ...(input.extraImagePaths?.length ? { _extra_image_paths: input.extraImagePaths } : {}),
     ...(input.description ? { _description: input.description } : {}),
     ...(input.state ? { _state: input.state } : {}),
     ...(input.city ? { _city: input.city } : {}),
