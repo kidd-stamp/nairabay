@@ -44,6 +44,8 @@ export const Route = createFileRoute("/post")({
   component: PostPage,
 });
 
+const MAX_PHOTOS = 3;
+
 function PostPage() {
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -53,8 +55,10 @@ function PostPage() {
   const [session, setSession] = useState<BaySession | null>(null);
   const [step, setStep] = useState(1);
 
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string>("");
+  const [files, setFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
+  const file = files[0] ?? null;
+  const preview = previews[0] ?? "";
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState<string>("");
@@ -109,7 +113,11 @@ function PostPage() {
       setCity((v) => v || draft.city);
       setPhone((v) => v || draft.phone);
       if (draft.photo) {
-        setFile(new File([draft.photo], draft.photoName || "photo.jpg", { type: draft.photo.type }));
+        const restored = [new File([draft.photo], draft.photoName || "photo.jpg", { type: draft.photo.type })];
+        (draft.extraPhotos ?? []).forEach((blob, i) => {
+          restored.push(new File([blob], draft.extraPhotoNames?.[i] || `photo-${i + 2}.jpg`, { type: blob.type }));
+        });
+        setFiles(restored);
         setStep(2);
       }
     })();
@@ -136,13 +144,15 @@ function PostPage() {
         state,
         city,
         phone,
-        photo: file ?? undefined,
-        photoName: file?.name,
+        photo: files[0],
+        photoName: files[0]?.name,
+        extraPhotos: files.slice(1),
+        extraPhotoNames: files.slice(1).map((f) => f.name),
         updatedAt: Date.now(),
       });
     }, 600);
     return () => clearTimeout(t);
-  }, [title, price, category, description, brandModel, size, condition, reasonForSelling, color, state, city, phone, file, publishedId]);
+  }, [title, price, category, description, brandModel, size, condition, reasonForSelling, color, state, city, phone, files, publishedId]);
 
   // Connection back? Flush anything queued while offline.
   useEffect(() => {
@@ -166,6 +176,14 @@ function PostPage() {
             const imagePath = await uploadPhoto(
               new File([job.photo], job.photoName || "photo.jpg", { type: job.photo.type }),
             );
+            const extraImagePaths: string[] = [];
+            for (const [i, blob] of (job.extraPhotos ?? []).entries()) {
+              extraImagePaths.push(
+                await uploadPhoto(
+                  new File([blob], job.extraPhotoNames?.[i] || `photo-${i + 2}.jpg`, { type: blob.type }),
+                ),
+              );
+            }
             const id = await createItem({
               sellerId: active.sellerId,
               sellerKey: active.sellerKey,
@@ -181,6 +199,7 @@ function PostPage() {
                 description: job.description,
               }),
               imagePath,
+              extraImagePaths,
               state: job.state || undefined,
               city: job.city || undefined,
             });
@@ -208,22 +227,33 @@ function PostPage() {
 
 
   useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
-  const handleFile = (selected: File | null) => {
-    if (!selected) return;
-    if (selected.size > 10 * 1024 * 1024) {
-      setError("That photo is above 10MB. Try a smaller one.");
+    if (files.length === 0) {
+      setPreviews([]);
       return;
     }
-    setError("");
-    setFile(selected);
+    const urls = files.map((f) => URL.createObjectURL(f));
+    setPreviews(urls);
+    return () => urls.forEach((u) => URL.revokeObjectURL(u));
+  }, [files]);
+
+  const handleFiles = (selected: FileList | File[] | null) => {
+    const picked = Array.from(selected ?? []);
+    if (picked.length === 0) return;
+    if (picked.some((f) => f.size > 10 * 1024 * 1024)) {
+      setError("One of those photos is above 10MB. Try smaller ones.");
+      return;
+    }
+    const room = MAX_PHOTOS - files.length;
+    if (room <= 0) {
+      setError(`You can add up to ${MAX_PHOTOS} photos.`);
+      return;
+    }
+    const next = [...files, ...picked.slice(0, room)];
+    setError(picked.length > room ? `Only the first ${MAX_PHOTOS} photos are used.` : "");
+    const isFirst = files.length === 0;
+    setFiles(next);
     setStep(2);
-    void autoFillFromPhoto(selected);
+    if (isFirst && next[0]) void autoFillFromPhoto(next[0]);
   };
 
   /** Vision auto-fill so sellers barely type: category, title, condition. */
@@ -326,8 +356,10 @@ function PostPage() {
         state,
         city,
         phone,
-        photo: file,
-        photoName: file.name,
+        photo: files[0],
+        photoName: files[0]?.name,
+        extraPhotos: files.slice(1),
+        extraPhotoNames: files.slice(1).map((f) => f.name),
         updatedAt: Date.now(),
       });
       await clearDraft();
@@ -344,6 +376,8 @@ function PostPage() {
           : await claimBay({ phone, state, city });
       setSession(active);
       const imagePath = await uploadPhoto(file);
+      const extraImagePaths: string[] = [];
+      for (const extra of files.slice(1)) extraImagePaths.push(await uploadPhoto(extra));
       const id = await createItem({
         sellerId: active.sellerId,
         sellerKey: active.sellerKey,
@@ -352,6 +386,7 @@ function PostPage() {
         category,
         description: buildListingDescription(),
         imagePath,
+        extraImagePaths,
         state: state || undefined,
         city: city || undefined,
       });
@@ -441,9 +476,11 @@ function PostPage() {
             ref={fileRef}
             type="file"
             accept="image/*"
+            multiple
             className="hidden"
             onChange={(e) => {
-              handleFile(e.target.files?.[0] ?? null);
+              handleFiles(e.target.files);
+              e.target.value = "";
               setSourceOpen(false);
             }}
           />
@@ -454,52 +491,75 @@ function PostPage() {
             capture="environment"
             className="hidden"
             onChange={(e) => {
-              handleFile(e.target.files?.[0] ?? null);
+              handleFiles(e.target.files);
+              e.target.value = "";
               setSourceOpen(false);
             }}
           />
           <input
             ref={anyFileRef}
             type="file"
+            multiple
             className="hidden"
             onChange={(e) => {
-              handleFile(e.target.files?.[0] ?? null);
+              handleFiles(e.target.files);
+              e.target.value = "";
               setSourceOpen(false);
             }}
           />
 
-          {preview ? (
-            <div className="mt-3 flex items-center gap-4">
-              <img
-                src={preview}
-                alt="Your item"
-                className="h-24 w-24 rounded-2xl object-cover"
-              />
-              <div className="flex flex-col gap-2 text-sm font-semibold">
-                <button type="button" className="underline underline-offset-4" onClick={() => setSourceOpen(true)}>
-                  Retake / change
-                </button>
-                <button
-                  type="button"
-                  className="text-destructive underline underline-offset-4"
-                  onClick={() => {
-                    setFile(null);
-                    setPreview("");
-                    setStep(1);
-                  }}
-                >
-                  Remove photo
-                </button>
+          {previews.length > 0 ? (
+            <div className="mt-3 space-y-3">
+              <div className="flex flex-wrap gap-3">
+                {previews.map((src, i) => (
+                  <div key={src} className="relative">
+                    <img src={src} alt={`Your item ${i + 1}`} className="h-24 w-24 rounded-2xl object-cover" />
+                    {i === 0 ? (
+                      <span className="absolute left-1 top-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground">
+                        Main
+                      </span>
+                    ) : null}
+                    <button
+                      type="button"
+                      aria-label="Remove photo"
+                      onClick={() => {
+                        const next = files.filter((_, idx) => idx !== i);
+                        setFiles(next);
+                        if (next.length === 0) setStep(1);
+                      }}
+                      className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-destructive text-xs font-bold text-destructive-foreground"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                {files.length < MAX_PHOTOS ? (
+                  <button
+                    type="button"
+                    onClick={() => setSourceOpen(true)}
+                    className="h-24 w-24 rounded-2xl border-2 border-dashed border-border text-sm font-bold text-muted-foreground"
+                  >
+                    + Add
+                  </button>
+                ) : null}
               </div>
+              <p className="text-xs font-semibold text-muted-foreground">
+                {files.length} of {MAX_PHOTOS} photos · first one is the cover
+              </p>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => setSourceOpen(true)}
-              className="mt-3 w-full rounded-2xl bg-primary px-5 py-6 text-lg font-bold text-primary-foreground shadow-soft"
-            >
-              📸 Open camera or upload photo
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => setSourceOpen(true)}
+                className="mt-3 w-full rounded-2xl bg-primary px-5 py-6 text-lg font-bold text-primary-foreground shadow-soft"
+              >
+                📸 Open camera or upload photo
+              </button>
+              <p className="mt-2 text-xs font-semibold text-muted-foreground">
+                Add up to {MAX_PHOTOS} photos — more angles sell faster.
+              </p>
+            </>
           )}
 
           {sourceOpen ? (
