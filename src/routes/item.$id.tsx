@@ -52,11 +52,20 @@ function ItemPage() {
     refetchInterval: (query) => (query.state.data?.seller?.phone_verified_at ? false : 8000),
   });
 
-  const { data: imageUrl } = useQuery({
-    queryKey: ["item-image", item?.image_path],
-    queryFn: () => signedImageUrl(item!.image_path),
-    enabled: Boolean(item?.image_path),
+  const photoPaths = useMemo(
+    () => (item ? [item.image_path, ...(item.extra_image_paths ?? [])].filter(Boolean) : []),
+    [item],
+  );
+
+  const { data: imageUrls } = useQuery({
+    queryKey: ["item-images", photoPaths],
+    queryFn: () => signedImageUrls(photoPaths),
+    enabled: photoPaths.length > 0,
   });
+
+  const photos = photoPaths.map((p) => imageUrls?.[p]).filter(Boolean) as string[];
+  const [activePhoto, setActivePhoto] = useState(0);
+  const imageUrl = photos[activePhoto] ?? photos[0];
 
   useEffect(() => {
     void bumpViews(id);
@@ -117,6 +126,23 @@ function ItemPage() {
               <div className="h-full w-full animate-pulse bg-muted" />
             )}
           </div>
+          {photos.length > 1 ? (
+            <div className="flex gap-2 px-5 pt-4">
+              {photos.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setActivePhoto(i)}
+                  className={
+                    "h-16 w-16 overflow-hidden rounded-xl border-2 " +
+                    (i === activePhoto ? "border-primary" : "border-transparent")
+                  }
+                >
+                  <img src={src} alt={`${item.title} photo ${i + 1}`} className="h-full w-full object-cover" />
+                </button>
+              ))}
+            </div>
+          ) : null}
           <div className="space-y-3 p-5">
             <div className="flex flex-wrap items-center gap-2">
               <span className="bay-chip">{item.category}</span>
