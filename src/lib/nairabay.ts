@@ -212,7 +212,7 @@ export async function fetchItems(
 export async function fetchItem(id: string) {
   const { data, error } = await supabase
     .from("items")
-    .select(`id, seller_id, title, price, category, description, image_path, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
+    .select(`id, seller_id, title, price, category, description, image_path, extra_image_paths, location_state, location_city, status, views, created_at, seller:sellers(${SELLER_COLUMNS})`)
     .eq("id", id)
     .maybeSingle();
   if (error) throw error;
