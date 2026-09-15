@@ -96,7 +96,7 @@ function Home() {
                 to="/rules"
                 className="rounded-full border border-border px-6 py-3 font-bold transition-colors hover:bg-secondary"
               >
-                The 080Bay Code
+                The Bay Code
               </Link>
             </div>
           </div>
@@ -186,7 +186,7 @@ function Home() {
         </Link>{" "}
         ·{" "}
         <Link to="/rules" className="underline underline-offset-4">
-          The 080Bay Code
+          The Bay Code
         </Link>
       </footer>
     </div>

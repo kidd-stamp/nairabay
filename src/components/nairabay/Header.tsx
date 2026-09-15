@@ -53,7 +53,7 @@ export function Header() {
             to="/rules"
             className="hidden rounded-full px-3 py-2 text-muted-foreground transition-colors hover:text-foreground sm:block"
           >
-            The Code
+            The Bay Code
           </Link>
           <Link
             to="/verify"
