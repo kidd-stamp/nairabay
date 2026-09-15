@@ -95,7 +95,7 @@ export function ChatPanel({
       <div>
         <h2 className="font-display text-2xl leading-none">💬 Message #{sellerHandle}</h2>
         <p className="mt-1 text-xs text-muted-foreground">
-          Agree price and pickup right here on nairaBay. Never send money before you inspect.
+          Agree price and pickup right here on 080Bay. Never send money before you inspect.
         </p>
       </div>
 

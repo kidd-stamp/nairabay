@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Header } from "@/components/nairabay/Header";
 
-const TITLE = "nairaBay FAQ — selling, payments, delivery & verification";
+const TITLE = "080Bay FAQ — selling, payments, delivery & verification";
 const DESCRIPTION =
-  "Answers to the most common questions about selling on nairaBay: getting started, payments and fake alerts, delivery, Bay# verification, banned items and listing rules.";
+  "Answers to the most common questions about selling on 080Bay: getting started, payments and fake alerts, delivery, Bay# verification, banned items and listing rules.";
 
 export const Route = createFileRoute("/faq")({
   head: () => ({
@@ -29,7 +29,7 @@ const GROUPS: Group[] = [
     title: "Getting started",
     faqs: [
       {
-        q: "How do I sell online in Nigeria with nairaBay?",
+        q: "How do I sell online in Nigeria with 080Bay?",
         a: "Tap Snap & Post, add a photo of the item, fill in the title, price and location, then enter your phone number. Your listing goes live in seconds — no account, no password.",
       },
       {
@@ -38,7 +38,7 @@ const GROUPS: Group[] = [
       },
       {
         q: "Can I sell from my phone only?",
-        a: "Yes. nairaBay is built mobile-first for budget Android phones and low data. You can also install it to your home screen and post even when your connection drops — the listing uploads once you're back online.",
+        a: "Yes. 080Bay is built mobile-first for budget Android phones and low data. You can also install it to your home screen and post even when your connection drops — the listing uploads once you're back online.",
       },
       {
         q: "Do I need a website or a shop?",
@@ -46,7 +46,7 @@ const GROUPS: Group[] = [
       },
       {
         q: "Does it cost anything to list?",
-        a: "No. Posting on nairaBay is free.",
+        a: "No. Posting on 080Bay is free.",
       },
     ],
   },
@@ -57,7 +57,7 @@ const GROUPS: Group[] = [
     faqs: [
       {
         q: "How do I get paid?",
-        a: "You and the buyer agree directly — usually cash at the meetup or a bank transfer. nairaBay does not hold or process money.",
+        a: "You and the buyer agree directly — usually cash at the meetup or a bank transfer. 080Bay does not hold or process money.",
       },
       {
         q: "What is a fake bank alert and how do I avoid it?",
@@ -84,7 +84,7 @@ const GROUPS: Group[] = [
     faqs: [
       {
         q: "How do I deliver items to buyers?",
-        a: "Most nairaBay deals are hand-to-hand at a public meetup. For other towns, use a dispatch rider or a park/courier service and agree who pays before you ship.",
+        a: "Most 080Bay deals are hand-to-hand at a public meetup. For other towns, use a dispatch rider or a park/courier service and agree who pays before you ship.",
       },
       {
         q: "Who pays for delivery?",
@@ -134,7 +134,7 @@ const GROUPS: Group[] = [
     faqs: [
       {
         q: "What am I not allowed to sell?",
-        a: "No weapons, drugs, stolen goods, live animals, counterfeit products, human parts, or anything illegal in Nigeria. See the nairaBay Code for the full list.",
+        a: "No weapons, drugs, stolen goods, live animals, counterfeit products, human parts, or anything illegal in Nigeria. See the 080Bay Code for the full list.",
       },
       {
         q: "Can I sell an item for someone else?",
@@ -146,7 +146,7 @@ const GROUPS: Group[] = [
       },
       {
         q: "What happens if someone reports my Bay#?",
-        a: "Our team reviews the report. Genuine sellers are unaffected; repeated scam reports get the Bay# removed from nairaBay.",
+        a: "Our team reviews the report. Genuine sellers are unaffected; repeated scam reports get the Bay# removed from 080Bay.",
       },
     ],
   },
@@ -157,7 +157,7 @@ const GROUPS: Group[] = [
     faqs: [
       {
         q: "How do I contact a seller?",
-        a: "Open the listing and chat inside nairaBay, or tap the WhatsApp button to message the seller directly.",
+        a: "Open the listing and chat inside 080Bay, or tap the WhatsApp button to message the seller directly.",
       },
       {
         q: "How do I know a seller is real?",
@@ -194,7 +194,7 @@ function FaqPage() {
       <main className="mx-auto max-w-3xl px-4 py-10">
         <span className="bay-chip">❓ Questions &amp; answers</span>
         <h1 className="mt-3 font-display text-5xl leading-[0.95] md:text-6xl">
-          nairaBay FAQ
+          080Bay FAQ
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
           Everything buyers and sellers ask about posting, payments, delivery and Bay#
@@ -252,7 +252,7 @@ function FaqPage() {
 
         <footer className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
           <Link to="/" className="underline underline-offset-4">
-            Back to nairaBay home
+            Back to 080Bay home
           </Link>
         </footer>
 
