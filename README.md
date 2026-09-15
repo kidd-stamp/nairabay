@@ -192,7 +192,7 @@ Traditional Terms of Service documents are long, boring, and ignored. To match t
 
 Display this checklist right before a user publishes their first item:
 
-🟢 The 080Bay Code: Keep It Real
+🟢 The Bay Code: Keep It Real
 
 By using 080Bay, you agree to these three simple rules. Break them, and your Bay# will be permanently banned from the network:
 

@@ -339,7 +339,7 @@ function PostPage() {
     if (!category) return setError("Pick a category.");
     if (!state) return setError("Pick the state where the item is.");
     if (!previewBayHandle(phone)) return setError("Enter a valid phone number.");
-    if (!agreed) return setError("Accept the 080Bay Code to publish.");
+    if (!agreed) return setError("Accept the Bay Code to publish.");
 
     // Data cut out? Keep the listing safe in IndexedDB and send it automatically later.
     if (typeof navigator !== "undefined" && !navigator.onLine) {
@@ -803,7 +803,7 @@ function PostPage() {
               I own this item, the photo is real, and I will never ask a buyer for money before
               delivery. I accept{" "}
               <Link to="/rules" className="font-bold underline underline-offset-4">
-                The 080Bay Code
+                The Bay Code
               </Link>
               .
             </span>

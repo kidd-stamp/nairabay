@@ -183,7 +183,7 @@ function SellSafelyPage() {
             to="/rules"
             className="rounded-full border border-border px-6 py-3 text-center font-bold transition-colors hover:bg-secondary"
           >
-            Read the 080Bay Code
+            Read the Bay Code
           </Link>
         </div>
 

@@ -134,7 +134,7 @@ const GROUPS: Group[] = [
     faqs: [
       {
         q: "What am I not allowed to sell?",
-        a: "No weapons, drugs, stolen goods, live animals, counterfeit products, human parts, or anything illegal in Nigeria. See the 080Bay Code for the full list.",
+        a: "No weapons, drugs, stolen goods, live animals, counterfeit products, human parts, or anything illegal in Nigeria. See the Bay Code for the full list.",
       },
       {
         q: "Can I sell an item for someone else?",
