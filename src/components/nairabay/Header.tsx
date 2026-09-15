@@ -24,11 +24,10 @@ export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2" aria-label="080Bay home">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-lg font-bold text-primary-foreground">
             ₦
           </span>
-          <span className="font-sans text-2xl font-extrabold leading-none tracking-tight">080Bay</span>
         </Link>
 
         <nav className="ml-auto flex items-center gap-2 text-sm font-semibold">
