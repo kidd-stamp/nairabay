@@ -26,13 +26,13 @@ import { analyzeListingPhoto } from "@/lib/ai.functions";
 export const Route = createFileRoute("/post")({
   head: () => ({
     meta: [
-      { title: "Snap & Post — sell on nairaBay in seconds" },
+      { title: "Snap & Post — sell on 080Bay in seconds" },
       {
         name: "description",
         content:
           "Three steps: snap a photo, add title and price, drop your phone number. Your Bay# is created instantly — no passwords, no long forms.",
       },
-      { property: "og:title", content: "Snap & Post on nairaBay" },
+      { property: "og:title", content: "Snap & Post on 080Bay" },
       {
         property: "og:description",
         content: "Photo, price, phone number. Your listing goes live in seconds.",
@@ -339,7 +339,7 @@ function PostPage() {
     if (!category) return setError("Pick a category.");
     if (!state) return setError("Pick the state where the item is.");
     if (!previewBayHandle(phone)) return setError("Enter a valid phone number.");
-    if (!agreed) return setError("Accept the nairaBay Code to publish.");
+    if (!agreed) return setError("Accept the 080Bay Code to publish.");
 
     // Data cut out? Keep the listing safe in IndexedDB and send it automatically later.
     if (typeof navigator !== "undefined" && !navigator.onLine) {
@@ -803,7 +803,7 @@ function PostPage() {
               I own this item, the photo is real, and I will never ask a buyer for money before
               delivery. I accept{" "}
               <Link to="/rules" className="font-bold underline underline-offset-4">
-                The nairaBay Code
+                The 080Bay Code
               </Link>
               .
             </span>
@@ -825,7 +825,7 @@ function PostPage() {
             disabled={busy}
             className="w-full rounded-2xl bg-primary px-5 py-4 text-lg font-bold text-primary-foreground shadow-soft disabled:opacity-60"
           >
-            {busy ? "Publishing…" : online ? "🚀 Publish to nairaBay" : "💾 Save & publish when data returns"}
+            {busy ? "Publishing…" : online ? "🚀 Publish to 080Bay" : "💾 Save & publish when data returns"}
           </button>
           <p className="text-center text-xs text-muted-foreground">
             This device remembers your Bay# — next time you just snap and publish.

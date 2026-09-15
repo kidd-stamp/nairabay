@@ -31,15 +31,15 @@ import { formatNaira, timeAgo } from "@/lib/nairabay";
 export const Route = createFileRoute("/_authenticated/admin")({
   head: () => ({
     meta: [
-      { title: "Admin console — nairaBay team" },
+      { title: "Admin console — 080Bay team" },
       {
         name: "description",
-        content: "Review seller reports, approve Bay# verification and manage listings on nairaBay.",
+        content: "Review seller reports, approve Bay# verification and manage listings on 080Bay.",
       },
-      { property: "og:title", content: "Admin console — nairaBay team" },
+      { property: "og:title", content: "Admin console — 080Bay team" },
       {
         property: "og:description",
-        content: "Internal moderation tools for the nairaBay team.",
+        content: "Internal moderation tools for the 080Bay team.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

@@ -15,13 +15,13 @@ import {
 export const Route = createFileRoute("/verify")({
   head: () => ({
     meta: [
-      { title: "Verify your Bay# — nairaBay" },
+      { title: "Verify your Bay# — 080Bay" },
       {
         name: "description",
         content:
-          "Confirm your nairaBay Bay# by texting VERIFY from your phone. Track the countdown and see the moment your number is confirmed.",
+          "Confirm your 080Bay Bay# by texting VERIFY from your phone. Track the countdown and see the moment your number is confirmed.",
       },
-      { property: "og:title", content: "Verify your Bay# on nairaBay" },
+      { property: "og:title", content: "Verify your Bay# on 080Bay" },
       {
         property: "og:description",
         content: "Text VERIFY from your number and watch your bay confirm live, right in the app.",

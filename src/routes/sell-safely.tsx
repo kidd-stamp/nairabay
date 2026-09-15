@@ -4,20 +4,20 @@ import { Header } from "@/components/nairabay/Header";
 export const Route = createFileRoute("/sell-safely")({
   head: () => ({
     meta: [
-      { title: "Sell safely on nairaBay — meet, verify, price & list" },
+      { title: "Sell safely on 080Bay — meet, verify, price & list" },
       {
         name: "description",
         content:
-          "How to sell safely on nairaBay: meet buyers in public, verify your Bay#, price items fairly, and write listings that sell fast.",
+          "How to sell safely on 080Bay: meet buyers in public, verify your Bay#, price items fairly, and write listings that sell fast.",
       },
       {
         property: "og:title",
-        content: "Sell safely on nairaBay — meet, verify, price & list",
+        content: "Sell safely on 080Bay — meet, verify, price & list",
       },
       {
         property: "og:description",
         content:
-          "Safety-first guide for nairaBay sellers: public meetups, phone verification, smart pricing, and listing tips.",
+          "Safety-first guide for 080Bay sellers: public meetups, phone verification, smart pricing, and listing tips.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -56,7 +56,7 @@ const SECTIONS = [
     emoji: "🏷️",
     title: "Price it to sell",
     tips: [
-      "Check what similar used items sell for on nairaBay, Jiji or Instagram first.",
+      "Check what similar used items sell for on 080Bay, Jiji or Instagram first.",
       "Price a little higher than your lowest acceptable amount — most buyers will negotiate.",
       "Be honest about wear and tear. Buyers will find out when they inspect.",
       "Bundle related items together to move stock faster.",
@@ -104,7 +104,7 @@ const QUICK_ANSWERS = [
   },
   {
     q: "What if a buyer messages me on WhatsApp?",
-    a: "That's normal on nairaBay. You can also chat directly on the listing page. Keep all communication respectful and within public view when possible.",
+    a: "That's normal on 080Bay. You can also chat directly on the listing page. Keep all communication respectful and within public view when possible.",
   },
 ];
 
@@ -115,7 +115,7 @@ function SellSafelyPage() {
       <main className="mx-auto max-w-3xl px-4 py-10">
         <span className="bay-chip">🛡️ Seller safety</span>
         <h1 className="mt-3 font-display text-5xl leading-[0.95] md:text-6xl">
-          Sell safely on nairaBay
+          Sell safely on 080Bay
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
           Everything you need to know before meeting a buyer, setting a price, or posting your first
@@ -183,13 +183,13 @@ function SellSafelyPage() {
             to="/rules"
             className="rounded-full border border-border px-6 py-3 text-center font-bold transition-colors hover:bg-secondary"
           >
-            Read the nairaBay Code
+            Read the 080Bay Code
           </Link>
         </div>
 
         <footer className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
           <Link to="/" className="underline underline-offset-4">
-            Back to nairaBay home
+            Back to 080Bay home
           </Link>
         </footer>
       </main>

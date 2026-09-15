@@ -86,7 +86,7 @@ export function isFreshAccount(createdAt: string) {
   return Date.now() - new Date(createdAt).getTime() < 24 * 60 * 60 * 1000;
 }
 
-/** The dedicated nairaBay SIM that receives verification texts. */
+/** The dedicated 080Bay SIM that receives verification texts. */
 export const VERIFY_NUMBER = "+234 702 639 0848";
 export const VERIFY_KEYWORD = "VERIFY";
 /** Hours a brand-new listing stays live while the seller verifies by SMS. */
@@ -347,7 +347,7 @@ export const REPORT_REASONS = [
 
 export type ReportReason = (typeof REPORT_REASONS)[number];
 
-/** Flag a suspicious Bay# for the nairaBay team to review. */
+/** Flag a suspicious Bay# for the 080Bay team to review. */
 export async function reportBay(input: {
   bayHandle: string;
   reason: ReportReason;
