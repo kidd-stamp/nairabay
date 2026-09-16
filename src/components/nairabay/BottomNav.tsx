@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { loadSession, type BaySession } from "@/lib/nairabay";
 import { loadChatIdentity, type ChatIdentity } from "@/lib/chat";
 
@@ -112,7 +112,7 @@ function MoreLink({
 }: {
   to: string;
   params?: Record<string, string>;
-  children: React.ReactNode;
+  children: ReactNode;
   onClick?: () => void;
 }) {
   return (
