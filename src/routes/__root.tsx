@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { registerServiceWorker } from "../lib/pwa";
 import { startQueryPersistence } from "../lib/query-persist";
 import { OfflineBar } from "../components/nairabay/OfflineBar";
+import { InstallPrompt } from "../components/nairabay/InstallPrompt";
+import { BottomNav } from "../components/nairabay/BottomNav";
 
 function NotFoundComponent() {
   return (
@@ -141,8 +143,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <OfflineBar />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <InstallPrompt />
+      <div className="pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+      </div>
+      <BottomNav />
     </QueryClientProvider>
   );
 }

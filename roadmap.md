@@ -4,4 +4,4 @@
 - [x] AI photo auto-fill on Snap & Post
 - [x] Remove "080Bay" text from header logo
 - [x] Update "The 080Bay Code" to "The Bay Code"
-- [ ] Decide and build standalone mobile app for posting/verification
+- [x] Make 080Bay installable and app-like on phones (PWA install prompt + mobile bottom nav for Post/Verify)
