@@ -1,10 +1,10 @@
-# 080Bay
+# Nairabay
 
-i want to create an online store called 080Bay where nigeria, diaspora and friends can post items for sale quickly by using their phones or laptop without hazzles or stress, a soft life type of posting in seconds, sort of snap and post.. no long signing in...just post with their phone numbers where the last four digit of their local or international phone number automatically becomes their bay# e.g bay2342. 080Bay is an incredible choice, and this "Snap & Post" workflow is the exact type of frictionless, "soft life" experience that will make it a massive hit in Nigeria. By removing long forms and passwords, you are eliminating the #1 reason users abandon online marketplaces.
+i want to create an online store called Nairabay where nigeria, diaspora and friends can post items for sale quickly by using their phones or laptop without hazzles or stress, a soft life type of posting in seconds, sort of snap and post.. no long signing in...just post with their phone numbers where the last four digit of their local or international phone number automatically becomes their bay# e.g bay2342. Nairabay is an incredible choice, and this "Snap & Post" workflow is the exact type of frictionless, "soft life" experience that will make it a massive hit in Nigeria. By removing long forms and passwords, you are eliminating the #1 reason users abandon online marketplaces.
 
 To help you visualize exactly how this seamless onboarding and posting experience will work for your users, I have built an interactive simulation below.
 
-📱 080Bay "Soft Life" Snap & Post Flow
+📱 Nairabay "Soft Life" Snap & Post Flow
 
 Place the widget after this line to view the interactive prototype.
 
@@ -36,7 +36,7 @@ Handling Duplicates: Because millions of people share the same final 4 digits, y
 
 Once the user verifies the OTP via SMS, a long-lasting secure token (browser cookie or local storage token) is saved to their phone or laptop.
 
-The next time they visit 080Bay, the site remembers them automatically. They never have to type a password again. They just hit "Snap" and publish.
+The next time they visit Nairabay, the site remembers them automatically. They never have to type a password again. They just hit "Snap" and publish.
 
 💡 Strategic Feature Recommendations for Launch
 
@@ -151,7 +151,7 @@ Placeholder Text: _ _ _ _
 
 Final Success Button:
 
-Label: [ 🚀 Publish to 080Bay ]
+Label: [ 🚀 Publish to Nairabay ]
 
 📈 3. Developer Logic for Handle Collisions (The Duplicate Problem)
 
@@ -165,7 +165,7 @@ The Fix: The backend automatically appends the network prefix identifier or a cl
 
 📲 4. The Buyer’s Point of View (The Chat Hook)
 
-When a buyer spots an item on 080Bay posted by bay2342, they shouldn't have to fill out a contact form.
+When a buyer spots an item on Nairabay posted by bay2342, they shouldn't have to fill out a contact form.
 
 Place a massive green button right under the item details:
 
@@ -179,7 +179,7 @@ The "Anti-Payment Before Delivery" Banner
 
 Place a permanent, highly visible warning box right above the "Chat Seller on WhatsApp" button:
 
-🛑 080Bay Safety Warning:
+🛑 Nairabay Safety Warning:
 NEVER PAY ANYONE IN ADVANCE. Do not pay for delivery, commitment fees, or item reservations. Meet the seller in a public place (like a mall or bank) to inspect the item before transferring funds. If it feels suspicious, click [ Report Bay# ].
 
 The Dynamic "New Account" Flag
@@ -188,13 +188,13 @@ If bay2342 just created their account today and immediately posted 5 high-end ga
 
 ⚠️ Account Age: Created less than 24 hours ago. Proceed with caution. 1. The "Soft Life" Terms of Service (Plain English)
 
-Traditional Terms of Service documents are long, boring, and ignored. To match the frictionless vibe of 080Bay, your user rules should be short, written in straightforward language, and easy to read on a mobile screen.
+Traditional Terms of Service documents are long, boring, and ignored. To match the frictionless vibe of Nairabay, your user rules should be short, written in straightforward language, and easy to read on a mobile screen.
 
 Display this checklist right before a user publishes their first item:
 
 🟢 The Bay Code: Keep It Real
 
-By using 080Bay, you agree to these three simple rules. Break them, and your Bay# will be permanently banned from the network:
+By using Nairabay, you agree to these three simple rules. Break them, and your Bay# will be permanently banned from the network:
 
 No Fakes or Scams: You must own the item you are posting. Do not upload stock photos from Google or Pinterest. Take a real photo of the actual item in your hands right now.
 

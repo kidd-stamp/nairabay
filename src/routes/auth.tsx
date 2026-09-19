@@ -9,15 +9,15 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Team sign in — 080Bay admin" },
+      { title: "Team sign in — Nairabay admin" },
       {
         name: "description",
-        content: "Sign in to the 080Bay team console to review reports, verify Bay# sellers and manage listings.",
+        content: "Sign in to the Nairabay team console to review reports, verify Bay# sellers and manage listings.",
       },
-      { property: "og:title", content: "Team sign in — 080Bay admin" },
+      { property: "og:title", content: "Team sign in — Nairabay admin" },
       {
         property: "og:description",
-        content: "Private sign in for the 080Bay moderation team.",
+        content: "Private sign in for the Nairabay moderation team.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -72,7 +72,7 @@ function AuthPage() {
       <main className="mx-auto w-full max-w-md px-4 py-10">
         <h1 className="font-display text-3xl">Team sign in</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          For the 080Bay moderation team only. Sellers never need an account.
+          For the Nairabay moderation team only. Sellers never need an account.
         </p>
 
         <form onSubmit={handleSubmit} className="surface-card mt-6 space-y-4 p-5">

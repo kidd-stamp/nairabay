@@ -14,13 +14,13 @@ import { signedImageUrls, timeAgo } from "@/lib/nairabay";
 export const Route = createFileRoute("/inbox")({
   head: () => ({
     meta: [
-      { title: "Your chat inbox — 080Bay" },
+      { title: "Your chat inbox — Nairabay" },
       {
         name: "description",
         content:
-          "Read and reply to buyer and seller messages about price and pickup, all inside 080Bay.",
+          "Read and reply to buyer and seller messages about price and pickup, all inside Nairabay.",
       },
-      { property: "og:title", content: "Your 080Bay chat inbox" },
+      { property: "og:title", content: "Your Nairabay chat inbox" },
       {
         property: "og:description",
         content: "Every conversation about your listings and the items you're buying, in one place.",
