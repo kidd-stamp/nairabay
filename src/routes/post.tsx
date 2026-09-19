@@ -26,13 +26,13 @@ import { analyzeListingPhoto } from "@/lib/ai.functions";
 export const Route = createFileRoute("/post")({
   head: () => ({
     meta: [
-      { title: "Snap & Post — sell on 080Bay in seconds" },
+      { title: "Snap & Post — sell on Nairabay in seconds" },
       {
         name: "description",
         content:
           "Three steps: snap a photo, add title and price, drop your phone number. Your Bay# is created instantly — no passwords, no long forms.",
       },
-      { property: "og:title", content: "Snap & Post on 080Bay" },
+      { property: "og:title", content: "Snap & Post on Nairabay" },
       {
         property: "og:description",
         content: "Photo, price, phone number. Your listing goes live in seconds.",
@@ -825,7 +825,7 @@ function PostPage() {
             disabled={busy}
             className="w-full rounded-2xl bg-primary px-5 py-4 text-lg font-bold text-primary-foreground shadow-soft disabled:opacity-60"
           >
-            {busy ? "Publishing…" : online ? "🚀 Publish to 080Bay" : "💾 Save & publish when data returns"}
+            {busy ? "Publishing…" : online ? "🚀 Publish to Nairabay" : "💾 Save & publish when data returns"}
           </button>
           <p className="text-center text-xs text-muted-foreground">
             This device remembers your Bay# — next time you just snap and publish.

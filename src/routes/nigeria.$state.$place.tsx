@@ -13,13 +13,13 @@ export const Route = createFileRoute("/nigeria/$state/$place")({
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Unavailable | 080Bay" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Unavailable | Nairabay" }, { name: "robots", content: "noindex" }] };
     }
     const { state, place } = loaderData;
     const title =
       place.kind === "campus"
-        ? `${place.name} student marketplace — buy & sell | 080Bay`
-        : `Buy & sell in ${place.name}, ${state.name} | 080Bay`;
+        ? `${place.name} student marketplace — buy & sell | Nairabay`
+        : `Buy & sell in ${place.name}, ${state.name} | Nairabay`;
     const description =
       place.kind === "campus"
         ? `Cheap deals near ${place.name}: phones, laptops, textbooks, fashion and hostel items from students and traders in ${state.name}.`

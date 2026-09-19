@@ -9,13 +9,13 @@ import { CATEGORIES, NIGERIAN_STATES, fetchItems, signedImageUrls } from "@/lib/
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "080Bay — Snap & sell in seconds, no sign-up stress" },
+      { title: "Nairabay — Snap & sell in seconds, no sign-up stress" },
       {
         name: "description",
         content:
-          "080Bay is the soft-life marketplace for Nigeria and the diaspora. Snap a photo, add a price, get your Bay# from your phone number and publish in seconds.",
+          "Nairabay is the soft-life marketplace for Nigeria and the diaspora. Snap a photo, add a price, get your Bay# from your phone number and publish in seconds.",
       },
-      { property: "og:title", content: "080Bay — Snap & sell in seconds" },
+      { property: "og:title", content: "Nairabay — Snap & sell in seconds" },
       {
         property: "og:description",
         content: "Post items for sale in seconds. No forms, no passwords. Buyers chat you on WhatsApp.",
@@ -102,7 +102,7 @@ function Home() {
           </div>
           <img
             src={heroImage}
-            alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on 080Bay"
+            alt="Sneakers, a phone, ankara fabric and accessories laid out for sale on Nairabay"
             width={1600}
             height={1000}
             decoding="async"
@@ -176,7 +176,7 @@ function Home() {
       </section>
 
       <footer className="border-t border-border py-8 text-center text-xs text-muted-foreground">
-        080Bay — meet in public, inspect before you pay. ·{" "}
+        Nairabay — meet in public, inspect before you pay. ·{" "}
         <Link to="/sell-safely" className="underline underline-offset-4">
           Sell safely
         </Link>{" "}

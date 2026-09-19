@@ -8,12 +8,12 @@ export const Route = createFileRoute("/rules")({
       {
         name: "description",
         content:
-          "No fakes, no pre-payments, no banned items. The three plain-English rules every 080Bay seller agrees to before posting.",
+          "No fakes, no pre-payments, no banned items. The three plain-English rules every Nairabay seller agrees to before posting.",
       },
       { property: "og:title", content: "The Bay Code" },
       {
         property: "og:description",
-        content: "Three simple rules that keep 080Bay safe: no fakes, no pre-payments, no banned items.",
+        content: "Three simple rules that keep Nairabay safe: no fakes, no pre-payments, no banned items.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -33,7 +33,7 @@ const RULES = [
   },
   {
     title: "No banned items",
-    body: "No illegal goods, weapons, medications or financial schemes. 080Bay is for clothes, books, electronics, real estate, services, gadgets, vehicles and everyday items.",
+    body: "No illegal goods, weapons, medications or financial schemes. Nairabay is for clothes, books, electronics, real estate, services, gadgets, vehicles and everyday items.",
   },
 ];
 

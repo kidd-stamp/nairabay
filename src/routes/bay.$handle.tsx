@@ -10,12 +10,12 @@ import { fetchBay, isFreshAccount, signedImageUrls, timeAgo, whatsappLink } from
 export const Route = createFileRoute("/bay/$handle")({
   head: () => ({
     meta: [
-      { title: "Seller bay — 080Bay" },
+      { title: "Seller bay — Nairabay" },
       {
         name: "description",
-        content: "Everything this 080Bay seller has for sale, with a direct WhatsApp chat button.",
+        content: "Everything this Nairabay seller has for sale, with a direct WhatsApp chat button.",
       },
-      { property: "og:title", content: "Seller bay on 080Bay" },
+      { property: "og:title", content: "Seller bay on Nairabay" },
       { property: "og:description", content: "Browse this seller's listings and chat on WhatsApp." },
       { property: "og:type", content: "profile" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -94,7 +94,7 @@ function BayPage() {
           </div>
           <div className="ml-auto flex flex-col items-end gap-2">
             <a
-              href={whatsappLink(seller.phone_number, `Hi #${seller.bay_handle}, I found your bay on 080Bay.`)}
+              href={whatsappLink(seller.phone_number, `Hi #${seller.bay_handle}, I found your bay on Nairabay.`)}
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-full bg-whatsapp px-5 py-3 font-bold text-whatsapp-foreground"

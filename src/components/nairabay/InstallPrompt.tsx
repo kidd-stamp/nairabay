@@ -36,7 +36,7 @@ export function InstallPrompt() {
           ₦
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold text-foreground">Install 080Bay on your phone</p>
+          <p className="text-sm font-bold text-foreground">Install Nairabay on your phone</p>
           <p className="text-xs text-muted-foreground">One tap to post, verify and sell — even offline.</p>
         </div>
         <button

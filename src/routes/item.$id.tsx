@@ -24,12 +24,12 @@ import {
 export const Route = createFileRoute("/item/$id")({
   head: () => ({
     meta: [
-      { title: "Item for sale — 080Bay" },
+      { title: "Item for sale — Nairabay" },
       {
         name: "description",
         content: "See the photo, price and location, then chat the seller straight on WhatsApp.",
       },
-      { property: "og:title", content: "Item for sale on 080Bay" },
+      { property: "og:title", content: "Item for sale on Nairabay" },
       {
         property: "og:description",
         content: "Photo, price, location and a direct WhatsApp chat with the seller.",
@@ -104,9 +104,9 @@ function ItemPage() {
   }
 
   const seller = item.seller;
-  const chatMessage = `Hi #${seller?.bay_handle ?? "080Bay"}, I saw your "${item.title}" (${formatNaira(
+  const chatMessage = `Hi #${seller?.bay_handle ?? "Nairabay"}, I saw your "${item.title}" (${formatNaira(
     Number(item.price),
-  )}) on 080Bay. Is it still available?`;
+  )}) on Nairabay. Is it still available?`;
 
   const changeStatus = async (next: "sold" | "removed" | "active") => {
     if (!session) return;

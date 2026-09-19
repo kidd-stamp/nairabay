@@ -1,4 +1,4 @@
-// Offline-first storage for 080Bay, backed by IndexedDB (idb-keyval).
+// Offline-first storage for Nairabay, backed by IndexedDB (idb-keyval).
 // Holds: cached screen data (react-query snapshots), the in-progress listing
 // draft, and a queue of listings waiting for the network to come back.
 import { createStore, get, set, del } from "idb-keyval";

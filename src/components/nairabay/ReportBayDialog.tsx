@@ -74,7 +74,7 @@ export function ReportBayDialog({
                 <div>
                   <h2 className="font-display text-3xl leading-none">Report #{bayHandle}</h2>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Tell us what looks wrong. Reports are private and reviewed by the 080Bay team.
+                    Tell us what looks wrong. Reports are private and reviewed by the Nairabay team.
                   </p>
                 </div>
 
