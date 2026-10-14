@@ -5,6 +5,8 @@ import heroImage from "@/assets/hero.jpg";
 import { Header } from "@/components/nairabay/Header";
 import { ItemCard } from "@/components/nairabay/ItemCard";
 import { CATEGORIES, NIGERIAN_STATES, fetchItems, signedImageUrls } from "@/lib/nairabay";
+import { useWebMCP } from "use-webmcp-tool";
+import { runWebMCPTool } from "@/lib/webmcp-telemetry";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -66,6 +68,38 @@ function Home() {
     queryKey: ["item-images", paths],
     queryFn: () => signedImageUrls(paths),
     enabled: paths.length > 0,
+  });
+
+  useWebMCP({
+    name: "list_listings",
+    description: "List the listings currently shown on the home page, respecting active filters.",
+    annotations: { readOnlyHint: true, untrustedContentHint: true },
+    execute: () =>
+      runWebMCPTool("list_listings", () =>
+        isLoading
+          ? "Listings are still loading."
+          : items.length === 0
+            ? "No listings shown."
+            : items
+                .map((i) => `${i.id}: ${i.title} — ₦${i.price} (${i.location_state ?? "Nigeria"})`)
+                .join("\n"),
+      ),
+  });
+
+  useWebMCP({
+    name: "search_listings",
+    description: "Type a search into the home page search box and filter listings by title.",
+    inputSchema: {
+      type: "object",
+      properties: { query: { type: "string", description: "Search text; empty clears it." } },
+      required: ["query"],
+    },
+    execute: ({ query }: { query: string }) =>
+      runWebMCPTool("search_listings", () => {
+        if (typeof query !== "string") throw new Error("query must be text.");
+        setSearch(query);
+        return query ? `Searching for "${query}".` : "Search cleared.";
+      }),
   });
 
 
